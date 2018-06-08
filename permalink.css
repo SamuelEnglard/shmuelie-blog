@@ -1,0 +1,313 @@
+.win-content
+		{
+			overflow: auto;
+			padding: 0 12px;
+		}
+
+		/* SplitView pane content style*/
+		.header
+		{
+			white-space: nowrap;
+		}
+
+			.header .title
+			{
+				font-size: 25px;
+				left: 50px;
+				margin-top: 6px;
+				vertical-align: middle;
+				display: inline-block;
+			}
+
+		.nav-commands
+		{
+			margin-top: 20px;
+		}
+
+		.win-navbarcommand-button
+		{
+			background-color: transparent;
+			width: 100%;
+			text-align: center;
+		}
+
+		.win-splitview-pane-hidden .win-navbarcommand-button
+		{
+			width: 46px;
+		}
+
+		.win-splitview-pane-hidden .nav-commands .win-navbarcommand-label
+		{
+			/* Workaround: Make sure pane doesn't scroll if ContentDialog restores focus to
+			   NavBarCommand's label
+			*/
+			visibility: hidden;
+		}
+
+		/*SplitView content style*/
+		.win-splitview-content
+		{
+			background-color: rgb(112,112,112);
+		}
+
+		.win-splitview-contentwrapper
+		{
+			width: calc(100% - 50px);
+		}
+
+		.contenttext
+		{
+			margin-left: 20px;
+			margin-top: 6px;
+			width: calc(100% - 25px);
+			height: 100%;
+		}
+
+		/*SplitView pane show button style*/
+		button.win-splitview-button
+		{
+			float: left;
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+			height: 48px;
+			width: 48px;
+			min-height: 0;
+			min-width: 0;
+			padding: 0;
+			border: 1px dotted transparent;
+			margin: 0;
+			outline: none;
+			background-color: transparent;
+		}
+
+		html.win-hoverable button.win-splitview-button:hover
+		{
+			background-color: rgba(255,255,255, 0.1);
+		}
+
+		button.win-splitview-button.win-splitview-button:active,
+		button.win-splitview-button.win-splitview-button:hover:active
+		{
+			background-color: rgba(255,255,255, 0.2);
+		}
+
+		button.win-splitview-button.win-keyboard:focus
+		{
+			border-color: rgb(255, 255, 255);
+		}
+
+		button.win-splitview-button:after
+		{
+			font-size: 24px;
+			font-family: 'Segoe MDL2 Assets', 'Symbols';
+			content: "\E700";
+		}
+
+		.win-hub-horizontal div.win-hub-section-header
+		{
+			margin-top: 0;
+		}
+
+		main
+		{
+			height: 100%;
+			margin-top: 12px;
+			padding-left: 0;
+		}
+
+		body a
+		{
+			color: #ffffff;
+		}
+
+		a.win-label
+		{
+			color: #ffffff;
+			text-decoration: none;
+		}
+		
+		div.win-hub
+		{
+			height: calc(100% - 115px);
+		}
+
+		div.win-flyout#twitterFlyout
+		{
+			border-width: 0;
+			background-color: transparent;
+			min-height: 600px;
+		}
+
+		#podcastFlyout
+		{
+			min-height: 400px;
+		}
+
+		#searchBox
+		{
+			margin-top: 6px;
+			display: inline-block;
+			margin-left: 10px;
+		}
+
+		time
+		{
+			font-size: 15px;
+			font-weight: 500;
+			line-height: 19.99px;
+			margin-top: 0;
+		}
+
+		body
+		{
+			background-color: #000000;
+			height: 100%;
+			position: relative;
+		}
+
+		.win-header
+		{
+			padding: 6px 12px 10px 52px;
+			height: 32px;
+			position: relative;
+		}
+
+			.win-header .win-label
+			{
+				display: inline-block;
+				font-size: 24px;
+				font-weight: 300;
+				line-height: 32px;
+			}
+
+		.win-backbutton,
+		.win-back
+		{
+			width: 32px;
+			height: 32px;
+			font-size: 20px;
+			line-height: 32px;
+		}
+
+		.win-header .win-backbutton,
+		.win-header .win-navigation-backbutton
+		{
+			position: absolute;
+			left: 12px;
+		}
+
+		header h1
+		{
+			display: inline;
+		}
+
+		#mainHub div.post
+		{
+      width: 1024px;
+		}
+
+		.win-navbarcommand-label
+		{
+			width: 100%;
+		}
+
+		@media screen and (max-width: 740px)
+		{
+			.win-hub-horizontal div.win-hub-surface
+			{
+				padding-left: 0;
+			}
+
+			#podcastFlyout
+			{
+				right: 0 !important;
+			}
+
+			#searchBox
+			{
+				display: none;
+			}
+
+			#fake1
+			{
+				display: none;
+			}
+		}
+
+		@media screen and (min-width: 741px)
+		{
+			#searchAppBar
+			{
+				display: none;
+			}
+
+			.win-toolbar-overflowarea button[aria-label=search]
+			{
+				display: none;
+			}
+		}
+
+		@media screen and (max-height: 650px)
+		{
+			#twitterAppBar
+			{
+				display: none;
+			}
+
+			.win-toolbar-overflowarea button[aria-label=Twitter]
+			{
+				display: none !important;
+			}
+
+			#podcastFlyout
+			{
+				bottom: 30px !important;
+				top: auto !important;
+			}
+		}
+
+		article
+		{
+			overflow: hidden;
+      overflow-y: auto;            
+			padding-right: 10px;
+			margin-top: 10px;
+		}
+		
+        div.win-splitview-content
+        {
+            position: static !important;
+        }
+
+		#adish
+		{
+			max-width: 468px;
+			max-height: 40px;
+		}
+		a #adish
+		{
+			display: inline-block;
+			float: right;
+			margin-right: 5px;
+			margin-top: 5px;
+		}
+
+		@media screen and (max-width: 1209px)
+		{
+			a #adish
+			{
+				display: none;
+			}
+		}
+		
+		.prettyprint
+		{
+		    background-color: #ffffff;
+		    overflow: auto;
+		}
+		
+		[role=link]
+		{
+		    cursor: pointer;
+		}
