@@ -10,15 +10,6 @@
     white-space: nowrap;
 }
 
-    .header .title
-    {
-        font-size: 25px;
-        left: 50px;
-        margin-top: 6px;
-        vertical-align: middle;
-        display: inline-block;
-    }
-
 .win-navbarcommand-button
 {
     background-color: transparent;
@@ -74,7 +65,7 @@ button.win-splitview-button
     background-color: transparent;
 }
 
-html.win-hoverable button.win-splitview-button:hover
+.win-hoverable button.win-splitview-button:hover
 {
     background-color: rgba(255,255,255, 0.1);
 }
@@ -85,7 +76,7 @@ button.win-splitview-button.win-splitview-button:hover:active
     background-color: rgba(255,255,255, 0.2);
 }
 
-button.win-splitview-button.win-keyboard:focus
+.win-splitview-button.win-keyboard:focus
 {
     border-color: rgb(255, 255, 255);
 }
@@ -97,7 +88,7 @@ button.win-splitview-button:after
     content: "\E700";
 }
 
-.win-hub-horizontal div.win-hub-section-header
+.win-hub-horizontal .win-hub-section-header
 {
     margin-top: 0;
 }
@@ -120,21 +111,9 @@ a.win-label
     text-decoration: none;
 }
 
-div.win-hub
+.win-hub
 {
     height: calc(100% - 115px);
-}
-
-div.win-flyout#twitterFlyout
-{
-    border-width: 0;
-    background-color: transparent;
-    min-height: 600px;
-}
-
-#podcastFlyout
-{
-    min-height: 400px;
 }
 
 #searchBox
@@ -202,14 +181,14 @@ header h1
 
 @media screen and (max-width: 740px)
 {
-    .win-hub-horizontal div.win-hub-surface
+    .win-hub-horizontal .win-hub-surface
     {
         padding-left: 0;
     }
 
     #podcastFlyout
     {
-        right: 0 !important;
+        right: 0;
     }
 
     #searchBox
@@ -245,13 +224,13 @@ header h1
 
     .win-toolbar-overflowarea button[aria-label=Twitter]
     {
-        display: none !important;
+        display: none;
     }
 
     #podcastFlyout
     {
-        bottom: 30px !important;
-        top: auto !important;
+        bottom: 30px;
+        top: auto;
     }
 }
 
@@ -263,7 +242,6 @@ header h1
 
 a #adish
 {
-    display: inline-block;
     float: right;
     margin-right: 5px;
     margin-top: 5px;

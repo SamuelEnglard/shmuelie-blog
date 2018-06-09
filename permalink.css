@@ -3,17 +3,10 @@
 	margin-top: 20px;
 }
 
-
-
-
-
-
-
-#mainHub div.post
+#mainHub .post
 {
 	width: 1024px;
 }
-
 
 article
 {
@@ -23,7 +16,7 @@ article
 	margin-top: 10px;
 }
 
-div.win-splitview-content
+.win-splitview-content
 {
-	position: static !important;
+	position: static;
 }
