@@ -74,54 +74,8 @@
         document.getElementById("searchFlyout").winControl.show(e.currentTarget);
     };
 
-    /*var flyout = document.getElementById("twitterFlyout");
-    var widgetCount = -1;
-    function refreshTwitter()
-    {
-        flyout.innerHTML = '<a class="twitter-timeline" data-dnt="true" href="https://www.twitter.com/Shmuelie" data-widget-id="287032163927457792" data-tweet-limit="5" data-chrome="nofooter">Tweets by @Shmuelie</a>';
-        twttr.widgets.load();
-        widgetCount++;
-        setTimeout(waitForTwitter, 500);
-    }
-
-    flyout.addEventListener("click", function ()
-    {
-        flyout.winControl.hide();
-    });
-
-    function waitForTwitter()
-    {
-        if (flyout.innerHTML.indexOf("<a") === -1)
-        {
-            var timeline = document.getElementById("twitter-widget-" + widgetCount);
-            timeline.style.width = "";
-            timeline.style.maxWidth = "520px";
-            timeline.height = 600;
-
-            setTimeout(refreshTwitter, 120000);
-        }
-        else
-        {
-            setTimeout(waitForTwitter, 100);
-        }
-    }
-    function twitterScript()
-    {
-        if (twttr.widgets)
-        {
-            refreshTwitter();
-        }
-        else
-        {
-            setTimeout(twitterScript);
-        }
-    }
-    twitterScript();*/
     Blog.AppBar.TwitterClick = function ()
     {
-        /*var twitterButton = document.getElementById("twitterAppBar");
-        document.getElementById("twitter-widget-" + widgetCount).height = 600;
-        flyout.winControl.show(twitterButton);*/
         window.open("https://www.twitter.com/shmuelie", "_blank");
     };
 
@@ -133,61 +87,6 @@
             window.location = backButton.dataset.url;
         });
     }
-
-
-    /*var feedHTML = "<div data-win-control=\"WinJS.UI.Pivot\">";
-    var feeds = ["http://www.pwop.com/feed.aspx?show=dotnetrocks&filetype=master", "http://www.relay.fm/rocket/feed", "http://www.relay.fm/isometric/feed", "http://www.pwop.com/feed.aspx?show=runasradio&filetype=master", "http://hanselminutes.com/subscribe"];
-    google.load("feeds", "1");
-    google.setOnLoadCallback(function ()
-    {
-        function downloadFeed()
-        {
-            var feedUrl = feeds.pop();
-            var feed = new google.feeds.Feed(feedUrl);
-            feed.setNumEntries(1);
-            feed.setResultFormat(google.feeds.Feed.MIXED_FORMAT);
-            feed.load(function (result)
-            {
-                var xml = result.xmlDocument;
-                var title = xml.getElementsByTagName("title")[0].textContent;
-                var img = xml.getElementsByTagNameNS("http://www.itunes.com/dtds/podcast-1.0.dtd", "image")[0].attributes[0].nodeValue;
-                var desc = xml.getElementsByTagName("description")[0].textContent;
-                var href = xml.getElementsByTagName("link")[0].textContent;
-                var latestEpisode = result.feed.entries[0];
-                var latestTitle = latestEpisode.title;
-                var latestLink = latestEpisode.link;
-
-                feedHTML += "<div data-win-control=\"WinJS.UI.PivotItem\" data-win-options=\"{ header: '" + title + "' }\"><img style=\"width: 64px; height: 64px;\" src=\"" + img + "\"><div>" + desc + "</div><div style=\"margin-top: 10px;\"><h5 class=\"win-h5\">Latest Show</h5><a href=\"" + latestLink + "\" target=\"_blank\">" + latestTitle + "</a></div><div style=\"margin-top: 10px;\"><a href=\"" + href + "\" target=\"_blank\">" + href + "</a></div></div>"
-
-                if (feeds.length > 0)
-                {
-                    downloadFeed();
-                }
-                else
-                {
-                    feedHTML += "</div>";
-                    var feedElmnt = document.getElementById("podcastFlyout");
-                    feedElmnt.addEventListener("aftershow", function ()
-                    {
-                        feedElmnt.innerHTML = feedHTML;
-                        var pivotElmnt = feedElmnt.firstElementChild;
-                        WinJS.UI.processAll().then(function ()
-                        {
-                            pivotElmnt.addEventListener("selectionchanged ", function ()
-                            {
-                                var itemElement = pivotElement.winControl.items.getAt(0).element;
-                                var offset = itemElement.style.left;
-                                itemElement.parentNode.style.marginLeft = "-" + offset;
-                            });
-                            pivotElmnt.style.height = "400px";
-                            pivotElmnt.style.width = "250px";
-                        });
-                    });
-                }
-            });
-        }
-        downloadFeed();
-    });*/
 
     //Adish
     /*var adishAds = [
@@ -285,18 +184,12 @@
         }()), "_blank", "left=" + Math.round((screen.width / 2) - 275) + ",top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
     }
 
-    function postProcess()
-    {
-
-    }
-
     function start()
     {
         if (window.WinJS)
         {
             preProcess();
             WinJS.UI.processAll();
-            postProcess();
         }
         else
         {
