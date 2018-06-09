@@ -9,7 +9,7 @@
 	height: calc(100% - 100px);
 }
 
-.win-hub-section
+.win-hub-vertical .win-hub-section
 {
 	width: 600px;
 	max-width: calc(100vw - 10px);
