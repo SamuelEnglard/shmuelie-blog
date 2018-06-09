@@ -270,3 +270,10 @@ a #adish
 {
     background-size: auto;
 }
+
+.win-hub-vertical .win-hub-section-content
+{
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
