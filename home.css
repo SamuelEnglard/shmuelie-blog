@@ -9,7 +9,7 @@
 	height: calc(100% - 100px);
 }
 
-#mainHub .post
+.win-hub-section
 {
 	width: 600px;
 	max-width: calc(100vw - 10px);
