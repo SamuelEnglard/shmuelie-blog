@@ -15,7 +15,7 @@
 	max-width: calc(100vw - 10px);
 }
 
-article
+.contenttext
 {
 	overflow: hidden;
 	padding-right: 10px;
