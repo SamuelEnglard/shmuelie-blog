@@ -9,7 +9,7 @@
     Blog.AppBar.MeClick = function ()
     {
         document.getElementById("meDialog").winControl.show(document.getElementById("personalAppBar"));
-    }
+    };
     Blog.AppBar.LinkedInClick = function ()
     {
         window.open("https://www.linkedin.com/in/shmuelienglard", "_blank");
@@ -52,7 +52,7 @@
     {
         var dataset = e.currentTarget.dataset;
         twitterShare(dataset.url, dataset.title);
-    }
+    };
     Blog.Posts.TagsNav = function (e)
     {
         document.getElementById("tagsMenu" + e.currentTarget.dataset.id).winControl.show(e.currentTarget, "auto");
@@ -155,10 +155,9 @@
 
     function twitterShare(href, title)
     {
-        var A, D;
         function H(K)
         {
-            return encodeURIComponent(K).replace(/\+/g, "%2B")
+            return encodeURIComponent(K).replace(/\+/g, "%2B");
         }
         function C(M)
         {
@@ -167,10 +166,10 @@
             {
                 if (M[K] !== null && typeof M[K] !== "undefined")
                 {
-                    L.push(H(K) + "=" + H(M[K]))
+                    L.push(H(K) + "=" + H(M[K]));
                 }
             }
-            return L.sort().join("&")
+            return L.sort().join("&");
         }
         window.open("https://twitter.com/share?" + (function ()
         {
@@ -180,7 +179,7 @@
                 _: ((new Date()).getTime()),
                 via: "shmuelie"
             };
-            return C(L)
+            return C(L);
         }()), "_blank", "left=" + Math.round((screen.width / 2) - 275) + ",top=0,width=550,height=450,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
     }
 
