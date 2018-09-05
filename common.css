@@ -123,6 +123,12 @@ a.win-label
     margin-left: 10px;
 }
 
+#twitterFlyout
+{
+    height: 400px;
+    max-height: 100vh;
+}
+
 time
 {
     font-size: 15px;

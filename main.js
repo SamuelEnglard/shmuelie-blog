@@ -167,8 +167,6 @@
             var twitterFlyout = document.getElementById("twitterFlyout");
             twttr.widgets.createTimeline({ sourceType: "profile", screenName: "shmuelie" }, twitterFlyout);
             Blog.Flyouts.Twitter = new WinJS.UI.Flyout(twitterFlyout);
-            Blog.Flyouts.Twitter.show(document.getElementsByTagName("header")[0]);
-            Blog.Flyouts.Twitter.hide();
         }
         else
         {
