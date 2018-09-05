@@ -4,7 +4,10 @@
 
     var Blog = {
         AppBar: {},
-        Posts: {}
+        Posts: {},
+        Flyouts: {
+            Twitter: null
+        }
     };
     Blog.AppBar.MeClick = function ()
     {
@@ -74,9 +77,9 @@
         document.getElementById("searchFlyout").winControl.show(e.currentTarget);
     };
 
-    Blog.AppBar.TwitterClick = function ()
+    Blog.AppBar.TwitterClick = function (e)
     {
-        window.open("https://www.twitter.com/shmuelie", "_blank");
+        Blog.Flyouts.Twitter.show(e.currentTarget);
     };
 
     var backButton = document.getElementById("BackButton");
@@ -189,6 +192,10 @@
         {
             preProcess();
             WinJS.UI.processAll();
+
+            var twitterFlyout = document.getElementById("twitterFlyout");
+            twttr.widgets.createTimeline({ sourceType: "profile", screenName: "shmuelie" }, twitterFlyout);
+            Blog.Flyouts.Twitter = new WinJS.UI.Flyout(twitterFlyout);
         }
         else
         {
