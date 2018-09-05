@@ -65,7 +65,10 @@
             {
                 window.location = e.currentTarget.dataset.url;
             },
-            PermaClick: Blog.Posts.ReblogClick,
+            PermaClick: function (e)
+            {
+                return Blog.Posts.ReblogClick(e);
+            },
             TwitterClick: function (e)
             {
                 var dataset = e.currentTarget.dataset;
@@ -100,7 +103,10 @@
             {
                 document.getElementById("tagsMenu" + e.currentTarget.dataset.id).winControl.show(e.currentTarget, "auto");
             },
-            TagsMenuClick: Blog.Posts.ReblogClick
+            TagsMenuClick: function (e)
+            {
+                return Blog.Posts.ReblogClick(e);
+            }
         },
         Flyouts: {
             Twitter: null
