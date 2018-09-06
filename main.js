@@ -1,3 +1,4 @@
+/// <reference types="winjs" />
 (function ()
 {
     "use strict";
@@ -139,39 +140,31 @@
     prettyScript.src = "https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js";
     document.body.appendChild(prettyScript);
 
-    function start()
+    WinJS.Utilities.ready(function ()
     {
-        if (window.WinJS)
-        {
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.MeClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.LinkedInClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.AboutMeClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.HomeClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.RssClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.HeaderClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.ReblogClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TwitterClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.TwitterClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.PermaClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagsNav);
-            WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagsMenuClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.SearchClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.SearchFlyClick);
-            WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.PodcastClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.MeClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.LinkedInClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.AboutMeClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.HomeClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.RssClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.HeaderClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.ReblogClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TwitterClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.TwitterClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.PermaClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagsNav);
+        WinJS.Utilities.markSupportedForProcessing(Blog.Posts.TagsMenuClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.SearchClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.SearchFlyClick);
+        WinJS.Utilities.markSupportedForProcessing(Blog.AppBar.PodcastClick);
 
-            WinJS.Namespace.define("Blog", Blog);
+        WinJS.Namespace.define("Blog", Blog);
 
-            WinJS.UI.processAll();
+        WinJS.UI.processAll();
 
-            var twitterFlyout = document.getElementById("twitterFlyout");
-            twttr.widgets.createTimeline({ sourceType: "profile", screenName: "shmuelie" }, twitterFlyout);
-            Blog.Flyouts.Twitter = new WinJS.UI.Flyout(twitterFlyout);
-        }
-        else
-        {
-            setTimeout(start, 10);
-        }
-    }
-    start();
+        var twitterFlyout = document.getElementById("twitterFlyout");
+        twttr.widgets.createTimeline({ sourceType: "profile", screenName: "shmuelie" }, twitterFlyout);
+        Blog.Flyouts.Twitter = new WinJS.UI.Flyout(twitterFlyout);
+    });
 }());
