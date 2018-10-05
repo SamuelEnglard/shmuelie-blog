@@ -1,5 +1,13 @@
 {
   "devDependencies": {
-    "@types/winjs": "4.4.0"
-  }
+    "@types/winjs": "4.4.0",
+    "@types/requirejs": "2.1.31",
+    "typescript": "3.0.3"
+  },
+  "author": "shmuelie",
+  "dependencies": {
+    "winjs": "4.4.3"
+  },
+  "description": "Website for Shmueli Englard",
+  "name": "shmuelie-blog"
 }

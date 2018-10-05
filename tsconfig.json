@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "charset": "utf-8",
+    "checkJs": false,
+    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "target": "es5",
+    "module": "amd",
+    "outDir": "js/",
+    "removeComments": true
+  },
+  "compileOnSave": true,
+  "include": ["ts/*.ts"]
+}
