@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-us">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Shmueli Englard</title>
+    <link id="winjsstyle" data-dark="https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/css/ui-dark.min.css" data-light="https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/css/ui-light.min.css" rel="stylesheet" />
+    <link href="css/default.css" rel="stylesheet" />
+</head>
+<body>
+    <div data-win-control="WinJS.UI.SplitView" class="splitView">
+        <div class="panel-area">
+            <div class="header">
+                <button class="win-splitviewpanetoggle" data-win-control="WinJS.UI.SplitViewPaneToggle" data-win-options="{ splitView: select('.splitView') }"></button>
+                <div class="title">&nbsp;</div>
+            </div>
+            <div class="nav-commands">
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="home" data-win-options="{label:'Home',icon:'home'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{label:'Blog',icon:'edit'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{label:'Podcasts',icon:'microphone'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-win-options="{label:'Contact Info',icon:'contactinfo'}"></div>
+            </div>
+        </div>
+        <header data-win-control="WinJS.UI.ToolBar" data-win-options="{closedDisplayMode:'full'}">
+            <div data-win-control="WinJS.UI.Command" data-win-options="{type:'content'}">
+                <h1 class="win-type-title">Shmueli Englard</h1>
+            </div>
+        </header>
+        <div class="content-area" data-win-control="Shmuelie.PageControlNavigator" data-win-options="{ home: 'home' }"></div>
+    </div>
+    <footer data-win-control="WinJS.UI.AppBar" data-win-options="{placement:'bottom'}">
+        <button class="appbar-styletoggle" data-win-control="WinJS.UI.AppBarCommand" data-win-options="{type:'toggle'}"></button>
+    </footer>
+    <script async data-main="js/requirejs.config.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+</body>
+</html>
