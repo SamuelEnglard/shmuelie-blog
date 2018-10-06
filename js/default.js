@@ -4,7 +4,11 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
     var winJsStyle = document.querySelector("link#winjsstyle");
     winJsStyle.href = winJsStyle.dataset.dark;
     WinJS.Utilities.ready().then(function () {
+        return WinJS.Binding.processAll(document.body, WinJS.Binding.as(window), false);
+    }).then(function () {
         return WinJS.UI.processAll(document.body);
+    }, function (e) {
+        console.log(e);
     }).then(function () {
         WinJS.Utilities.children(document.querySelector(".nav-commands")).forEach(function (value) {
             var splitViewCommand = value.winControl;
@@ -12,7 +16,8 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
                 navigator_1.default(value.dataset.nav);
             });
         });
-        var styleToggle = document.querySelector("button.appbar-styletoggle").winControl;
+        var styleToggle = document.querySelector("button.styletoggle").winControl;
+        styleToggle.label = "dark";
         styleToggle.addEventListener("click", function () {
             if (styleToggle.selected) {
                 winJsStyle.href = winJsStyle.dataset.light;
@@ -23,5 +28,38 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
                 styleToggle.label = "dark";
             }
         });
+        var currentWindowSize = "medium";
+        var splitView = document.querySelector("div.splitView").winControl;
+        function calculateSplitViewDisplayModes() {
+            var nextWindowSize;
+            if (window.innerWidth >= 1366) {
+                nextWindowSize = "large";
+            }
+            else if (window.innerWidth >= 800) {
+                nextWindowSize = "medium";
+            }
+            else {
+                nextWindowSize = "small";
+            }
+            if (currentWindowSize !== nextWindowSize) {
+                currentWindowSize = nextWindowSize;
+                switch (currentWindowSize) {
+                    case "large":
+                        splitView.closedDisplayMode = WinJS.UI.SplitView.ClosedDisplayMode.inline;
+                        splitView.openedDisplayMode = WinJS.UI.SplitView.OpenedDisplayMode.inline;
+                        break;
+                    case "medium":
+                        splitView.closedDisplayMode = WinJS.UI.SplitView.ClosedDisplayMode.inline;
+                        splitView.openedDisplayMode = WinJS.UI.SplitView.OpenedDisplayMode.overlay;
+                        break;
+                    case "small":
+                        splitView.closedDisplayMode = WinJS.UI.SplitView.ClosedDisplayMode.none;
+                        splitView.openedDisplayMode = WinJS.UI.SplitView.OpenedDisplayMode.overlay;
+                        break;
+                }
+            }
+        }
+        window.addEventListener("resize", calculateSplitViewDisplayModes);
+        calculateSplitViewDisplayModes();
     });
 });

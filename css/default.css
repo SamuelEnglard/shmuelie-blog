@@ -39,19 +39,31 @@
     visibility: hidden;
 }
 
-/*SplitView content style*/
-.win-splitview-content
+.win-splitview-content .content-area
 {
-    /*background-color: rgb(112,112,112);*/
+    margin: 5px;
 }
 
-    .win-splitview-content .content-area
-    {
-        margin: 5px;
-    }
-
-button.appbar-styletoggle .win-commandimage:after
+button.styletoggle .win-commandimage:after
 {
     font-family: Arial;
     content: "\263C";
+}
+
+.small-toggle
+{
+    display: none;
+}
+
+@media only screen and (max-width: 800px)
+{
+    header
+    {
+        margin-left: 48px;
+    }
+
+    .small-toggle
+    {
+        display: block;
+    }
 }
