@@ -1,0 +1,15 @@
+.headshot
+{
+    float: left;
+}
+
+.headshot img
+{
+    max-width: 128px;
+}
+
+figcaption
+{
+    max-width: 128px;
+    text-align: center;
+}
