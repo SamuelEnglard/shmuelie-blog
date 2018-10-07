@@ -1,0 +1,28 @@
+@font-face
+{
+    font-family: "Symbols";
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/fonts/Symbols.ttf);
+}
+
+div.profile
+{
+    float: left;
+    margin: 15px;
+}
+
+.icon
+{
+    font-family: "Symbols";
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.emailIcon::before
+{
+    content: "\E119";
+}
+
+.phoneIcon::before
+{
+    content: "\E13A";
+}
