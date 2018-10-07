@@ -13,10 +13,11 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
             require([pageName], function (exports) {
                 window.removeEventListener("hashchange", hashNavigate);
                 location.hash = "#" + pageName;
-                window.addEventListener("hashchange", hashNavigate);
                 nav.navigate(exports.default, initialState).then(function onCompleted(value) {
+                    window.addEventListener("hashchange", hashNavigate);
                     completelDispatch(value);
                 }, function onError(value) {
+                    window.addEventListener("hashchange", hashNavigate);
                     errorDispatch(value);
                 }, function onProgress(value) {
                     processDispatch(value);
