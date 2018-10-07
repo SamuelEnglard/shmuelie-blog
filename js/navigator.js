@@ -2,9 +2,18 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var nav = WinJS.Navigation;
+    function hashNavigate() {
+        var hash = location.hash;
+        if (hash.length > 1) {
+            pageNavigate(hash.substring(1));
+        }
+    }
     function pageNavigate(pageName, initialState) {
         return new WinJS.Promise(function (completelDispatch, errorDispatch, processDispatch) {
             require([pageName], function (exports) {
+                window.removeEventListener("hashchange", hashNavigate);
+                location.hash = "#" + pageName;
+                window.addEventListener("hashchange", hashNavigate);
                 nav.navigate(exports.default, initialState).then(function onCompleted(value) {
                     completelDispatch(value);
                 }, function onError(value) {
@@ -15,6 +24,7 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
             });
         });
     }
+    window.addEventListener("hashchange", hashNavigate);
     var navigator = WinJS.Class.define(function (element, options) {
         var _this = this;
         this._element = element || document.createElement("div");
@@ -24,7 +34,13 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
         nav.addEventListener('navigating', this._navigating.bind(this), false);
         nav.addEventListener('navigated', this._navigated.bind(this), false);
         WinJS.Utilities.ready(function () {
-            pageNavigate(_this.home);
+            var hash = location.hash;
+            if (hash.length > 1) {
+                pageNavigate(hash.substring(1));
+            }
+            else {
+                pageNavigate(_this.home);
+            }
         });
     }, {
         pageControl: {

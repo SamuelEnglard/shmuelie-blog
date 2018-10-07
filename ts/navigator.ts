@@ -19,9 +19,19 @@ interface PageControlNavigatorStatic {
 
 let nav = WinJS.Navigation;
 
+function hashNavigate() {
+    let hash = location.hash;
+    if (hash.length > 1) {
+        pageNavigate(hash.substring(1));
+    }
+}
+
 function pageNavigate(pageName: string, initialState?: any): WinJS.Promise<boolean> {
     return new WinJS.Promise<boolean>(function (completelDispatch, errorDispatch, processDispatch) {
         require([pageName], function (exports: { default: string }) {
+            window.removeEventListener("hashchange", hashNavigate);
+            location.hash = "#" + pageName;
+            window.addEventListener("hashchange", hashNavigate);
             nav.navigate(exports.default, initialState).then(function onCompleted(value) {
                 completelDispatch(value);
             }, function onError(value) {
@@ -33,6 +43,8 @@ function pageNavigate(pageName: string, initialState?: any): WinJS.Promise<boole
     });
 }
 
+window.addEventListener("hashchange", hashNavigate);
+
 let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: PageControlNavigator, element: HTMLElement, options: { home: string }) {
     this._element = element || document.createElement("div");
     this._element.appendChild(this._createPageElement());
@@ -41,7 +53,13 @@ let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: P
     nav.addEventListener('navigating', this._navigating.bind(this), false);
     nav.addEventListener('navigated', this._navigated.bind(this), false);
     WinJS.Utilities.ready(() => {
-        pageNavigate(this.home);
+        let hash = location.hash;
+        if (hash.length > 1) {
+            pageNavigate(hash.substring(1));
+        }
+        else {
+            pageNavigate(this.home);
+        }
     });
 },
     {
