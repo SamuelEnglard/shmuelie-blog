@@ -1,4 +1,4 @@
-define(["require", "exports", "winjs", "twitter", "linkedin"], function (require, exports, WinJS) {
+define(["require", "exports", "winjs", "twitter"], function (require, exports, WinJS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var contactPageUrl = "pages/contact.htm";
@@ -13,7 +13,6 @@ define(["require", "exports", "winjs", "twitter", "linkedin"], function (require
                     twttr.widgets.load(element);
                 });
             });
-            IN.parse(element);
             return p;
         },
         getAnimationElements: function () {

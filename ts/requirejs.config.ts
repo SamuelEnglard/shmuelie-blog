@@ -5,17 +5,13 @@ requirejs.config({
         },
         "twitter": {
             exports: "twttr"
-        },
-        "linkedin": {
-            exports: "IN"
         }
     },
     baseUrl: "js",
     paths: {
         "winjs-base": "https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/js/base.min",
         "winjs-ui": "https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/js/ui.min",
-        "twitter": "https://platform.twitter.com/widgets",
-        "linkedin": "https://platform.linkedin.com/in"
+        "twitter": "https://platform.twitter.com/widgets"
     },
     map: {
         "*": {
