@@ -10,11 +10,13 @@ WinJS.Utilities.ready().then(function () {
     return WinJS.UI.processAll(document.body);
 }, function (e) {
     console.log(e);
-}).then(function () {
+    }).then(function () {
+    let splitView: WinJS.UI.SplitView = (<HTMLElement>document.querySelector("div.splitView")).winControl;
     WinJS.Utilities.children(<HTMLElement>document.querySelector(".nav-commands")).forEach(function (value) {
         let splitViewCommand: WinJS.UI.SplitViewCommand = value.winControl;
         splitViewCommand.addEventListener("invoked", function () {
             pageNavigate(<string>value.dataset.nav);
+            splitView.closePane();
         });
     });
     let styleToggle: WinJS.UI.AppBarCommand = (<HTMLButtonElement>document.querySelector("button.styletoggle")).winControl;
@@ -30,7 +32,6 @@ WinJS.Utilities.ready().then(function () {
         }
     });
     let currentWindowSize: "large" | "medium" | "small" = "medium";
-    let splitView: WinJS.UI.SplitView = (<HTMLElement>document.querySelector("div.splitView")).winControl;
     function calculateSplitViewDisplayModes() {
         let nextWindowSize: "large" | "medium" | "small";
         if (window.innerWidth >= 1366) {

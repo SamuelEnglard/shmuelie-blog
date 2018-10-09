@@ -10,10 +10,12 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
     }, function (e) {
         console.log(e);
     }).then(function () {
+        var splitView = document.querySelector("div.splitView").winControl;
         WinJS.Utilities.children(document.querySelector(".nav-commands")).forEach(function (value) {
             var splitViewCommand = value.winControl;
             splitViewCommand.addEventListener("invoked", function () {
                 navigator_1.default(value.dataset.nav);
+                splitView.closePane();
             });
         });
         var styleToggle = document.querySelector("button.styletoggle").winControl;
@@ -29,7 +31,6 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
             }
         });
         var currentWindowSize = "medium";
-        var splitView = document.querySelector("div.splitView").winControl;
         function calculateSplitViewDisplayModes() {
             var nextWindowSize;
             if (window.innerWidth >= 1366) {
