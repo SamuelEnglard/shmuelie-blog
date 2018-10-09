@@ -40,6 +40,10 @@ function pageNavigate(pageName: string, initialState?: any): WinJS.Promise<boole
             }, function onProgress(value) {
                 processDispatch(value);
             });
+        }, function (e: { requireModules: string[] }) {
+            requirejs.undef(e.requireModules[0]);
+            nav.navigate("pages/404.htm");
+            errorDispatch(e);
         });
     });
 }

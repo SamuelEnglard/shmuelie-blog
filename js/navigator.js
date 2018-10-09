@@ -22,6 +22,10 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
                 }, function onProgress(value) {
                     processDispatch(value);
                 });
+            }, function (e) {
+                requirejs.undef(e.requireModules[0]);
+                nav.navigate("pages/404.htm");
+                errorDispatch(e);
             });
         });
     }
