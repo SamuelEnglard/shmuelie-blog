@@ -1,71 +1,76 @@
-// Copyright (c) Microsoft Corporation.  All Rights Reserved. Licensed under the MIT License. See License.txt in the project root for license information.
 import * as WinJS from 'winjs'
+import requirePromise from 'requirepromise'
 
 interface PageControlNavigator {
     _element: HTMLElement
-    home: string
-    _lastNavigationPromise: WinJS.IPromise<{}>
+    _lastNavigationPromise: WinJS.IPromise<void>
+    name: string
     readonly pageControl: any
     readonly pageElement: Element
     _createPageElement(): HTMLDivElement
     _getAnimationElements(): any
-    _navigated(): void
+    _navigated(args: CustomEvent<{ location: string, state: any }>): void
     _navigating(args: CustomEvent<{ location: string, state: any, delta: number, setPromise: (p: WinJS.IPromise<{}>) => void }>): void
+    addEventListener(type: string, listener: Function, useCapture?: boolean): void
+    dispatchEvent(type: string, eventProperties: any): boolean
+    removeEventListener(type: string, listener: Function, useCapture?: boolean): void
 }
 
 interface PageControlNavigatorStatic {
-    new(element: HTMLElement, options: { home: string }): PageControlNavigator;
+    new(element: HTMLElement, options: { name: string }): PageControlNavigator;
 }
 
-let nav = WinJS.Navigation;
+const nav = WinJS.Navigation;
 
-function hashNavigate() {
-    let hash = location.hash;
-    if (hash.length > 1) {
-        pageNavigate(hash.substring(1));
+const pageRegex = /#([a-z]+):\/\/([A-Za-z0-9\/_\-\.]+\.htm)/g;
+
+function getUrlForControl(controlName: string, url: string): string | null {
+    let match: RegExpExecArray | null;
+    pageRegex.lastIndex = 0;
+    while ((match = pageRegex.exec(url)) !== null) {
+        if (match.index === pageRegex.lastIndex) {
+            pageRegex.lastIndex++;
+        }
+
+        if (match[1] === controlName) {
+            return match[2];
+        }
     }
+    return null;
 }
 
-function pageNavigate(pageName: string, initialState?: any): WinJS.Promise<boolean> {
-    return new WinJS.Promise<boolean>(function (completelDispatch, errorDispatch, processDispatch) {
-        require([pageName], function (exports: { default: string }) {
-            window.removeEventListener("hashchange", hashNavigate);
-            location.hash = "#" + pageName;
-            nav.navigate(exports.default, initialState).then(function onCompleted(value) {
-                window.addEventListener("hashchange", hashNavigate);
-                completelDispatch(value);
-            }, function onError(value) {
-                window.addEventListener("hashchange", hashNavigate);
-                errorDispatch(value);
-            }, function onProgress(value) {
-                processDispatch(value);
-            });
-        }, function (e: { requireModules: string[] }) {
-            requirejs.undef(e.requireModules[0]);
-            nav.navigate("pages/404.htm");
-            errorDispatch(e);
-        });
-    });
+function parseUrl(url: string): { [name: string]: string } {
+    let result: { [name: string]: string } = {};
+    let match: RegExpExecArray | null;
+    while ((match = pageRegex.exec(url)) !== null) {
+        if (match.index === pageRegex.lastIndex) {
+            pageRegex.lastIndex++;
+        }
+
+        result[match[1]] = match[2];
+    }
+    return result;
 }
 
-window.addEventListener("hashchange", hashNavigate);
+function buildUrl(map: { [name: string]: string }): string {
+    return Object.getOwnPropertyNames(map).map(function (name) {
+        return "#" + name + "://" + map[name];
+    }).join("");
+}
 
-let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: PageControlNavigator, element: HTMLElement, options: { home: string }) {
+function updatehash() {
+    nav.navigate(location.hash);
+}
+
+window.addEventListener("hashchange", updatehash, false);
+
+const navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: PageControlNavigator, element: HTMLElement, options: { name: string }) {
+    this.name = options.name;
     this._element = element || document.createElement("div");
     this._element.appendChild(this._createPageElement());
-    this.home = options.home;
-    this._lastNavigationPromise = WinJS.Promise.as();
+    this._lastNavigationPromise = WinJS.Promise.as<void>();
     nav.addEventListener('navigating', this._navigating.bind(this), false);
     nav.addEventListener('navigated', this._navigated.bind(this), false);
-    WinJS.Utilities.ready(() => {
-        let hash = location.hash;
-        if (hash.length > 1) {
-            pageNavigate(hash.substring(1));
-        }
-        else {
-            pageNavigate(this.home);
-        }
-    });
 },
     {
         pageControl: {
@@ -80,7 +85,7 @@ let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: P
             }
         },
         _createPageElement(this: PageControlNavigator) {
-            var element = document.createElement("div");
+            const element = document.createElement("div");
             element.style.width = "100%";
             element.style.height = "100%";
             return element;
@@ -91,23 +96,42 @@ let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: P
             }
             return this.pageElement;
         },
-        _navigated: function (this: PageControlNavigator) {
+        _navigated: function (this: PageControlNavigator, args: CustomEvent<{ location: string, state: any }>) {
+            const url = getUrlForControl(this.name, args.detail.location);
+            if (url === null) {
+                return;
+            }
             WinJS.UI.Animation.enterPage(this._getAnimationElements()).done();
+            window.addEventListener("hashchange", updatehash, false);
         },
-        _navigating: function (this: PageControlNavigator, args: CustomEvent<{ location: string, state: any, delta: number, setPromise: (p: WinJS.IPromise<{}>) => void }>) {
-            var newElement = this._createPageElement();
-            var parentedComplete: () => void;
-            var parented = new WinJS.Promise(function (c) { parentedComplete = c; });
+        _navigating: function (this: PageControlNavigator, args: CustomEvent<{ location: string, state: any, delta: number, setPromise: (p: WinJS.IPromise<void>) => void }>) {
+            window.removeEventListener("hashchange", updatehash, false);
+            const url = getUrlForControl(this.name, args.detail.location);
+            if (url === null) {
+                return;
+            }
+
+            const hashes = parseUrl(location.hash);
+            hashes[this.name] = url;
+            location.hash = buildUrl(hashes);
+
+            const newElement = this._createPageElement();
+            let parentedComplete: () => void;
+            const parented = new WinJS.Promise(function (c) { parentedComplete = c; });
 
             this._lastNavigationPromise.cancel();
 
             this._lastNavigationPromise = WinJS.Promise.timeout().then(function () {
-                return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
-            }).then(function parentElement(this: PageControlNavigator) {
-                var oldElement = this.pageElement;
+                return requirePromise([url]);
+            }).then(function () {
+                return WinJS.UI.Pages.render(url, newElement, args.detail.state, parented);
+            }, () => {
+                this.dispatchEvent("404", {});
+            }).then(() => {
+                const oldElement = this.pageElement;
 
                 // Dispose BackButton control
-                var innerButtonElement = document.getElementById('innerButton');
+                const innerButtonElement = document.getElementById('innerButton');
                 if (innerButtonElement && innerButtonElement.winControl) {
                     innerButtonElement.winControl.dispose();
                 }
@@ -120,15 +144,15 @@ let navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: P
                 oldElement.textContent = "";
                 //this._updateBackButton();
                 parentedComplete();
-            }.bind(this));
+            });
 
             args.detail.setPromise(this._lastNavigationPromise);
         }
     }
 );
 
+WinJS.Class.mix(navigator, WinJS.Utilities.eventMixin);
+
 WinJS.Namespace.define("Shmuelie", {
     PageControlNavigator: navigator
 });
-
-export default pageNavigate;
