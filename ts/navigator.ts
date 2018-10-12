@@ -1,5 +1,6 @@
 import * as WinJS from 'winjs'
 import requirePromise from 'requirepromise'
+import stateManager from 'stateManager'
 
 interface PageControlNavigator {
     _element: HTMLElement
@@ -20,57 +21,14 @@ interface PageControlNavigatorStatic {
     new(element: HTMLElement, options: { name: string }): PageControlNavigator;
 }
 
-const nav = WinJS.Navigation;
-
-const pageRegex = /#([a-z]+):\/\/([A-Za-z0-9\/_\-\.]+\.htm)/g;
-
-function getUrlForControl(controlName: string, url: string): string | null {
-    let match: RegExpExecArray | null;
-    pageRegex.lastIndex = 0;
-    while ((match = pageRegex.exec(url)) !== null) {
-        if (match.index === pageRegex.lastIndex) {
-            pageRegex.lastIndex++;
-        }
-
-        if (match[1] === controlName) {
-            return match[2];
-        }
-    }
-    return null;
-}
-
-function parseUrl(url: string): { [name: string]: string } {
-    let result: { [name: string]: string } = {};
-    let match: RegExpExecArray | null;
-    while ((match = pageRegex.exec(url)) !== null) {
-        if (match.index === pageRegex.lastIndex) {
-            pageRegex.lastIndex++;
-        }
-
-        result[match[1]] = match[2];
-    }
-    return result;
-}
-
-function buildUrl(map: { [name: string]: string }): string {
-    return Object.getOwnPropertyNames(map).map(function (name) {
-        return "#" + name + "://" + map[name];
-    }).join("");
-}
-
-function updatehash() {
-    nav.navigate(location.hash);
-}
-
-window.addEventListener("hashchange", updatehash, false);
-
 const navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this: PageControlNavigator, element: HTMLElement, options: { name: string }) {
     this.name = options.name;
+    const us = stateManager.register(this.name);
     this._element = element || document.createElement("div");
     this._element.appendChild(this._createPageElement());
     this._lastNavigationPromise = WinJS.Promise.as<void>();
-    nav.addEventListener('navigating', this._navigating.bind(this), false);
-    nav.addEventListener('navigated', this._navigated.bind(this), false);
+    us.addEventListener("navigated", this._navigated.bind(this), false);
+    us.addEventListener("navigating", this._navigating.bind(this), false);
 },
     {
         pageControl: {
@@ -97,24 +55,9 @@ const navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this:
             return this.pageElement;
         },
         _navigated: function (this: PageControlNavigator, args: CustomEvent<{ location: string, state: any }>) {
-            const url = getUrlForControl(this.name, args.detail.location);
-            if (url === null) {
-                return;
-            }
             WinJS.UI.Animation.enterPage(this._getAnimationElements()).done();
-            window.addEventListener("hashchange", updatehash, false);
         },
         _navigating: function (this: PageControlNavigator, args: CustomEvent<{ location: string, state: any, delta: number, setPromise: (p: WinJS.IPromise<void>) => void }>) {
-            window.removeEventListener("hashchange", updatehash, false);
-            const url = getUrlForControl(this.name, args.detail.location);
-            if (url === null) {
-                return;
-            }
-
-            const hashes = parseUrl(location.hash);
-            hashes[this.name] = url;
-            location.hash = buildUrl(hashes);
-
             const newElement = this._createPageElement();
             let parentedComplete: () => void;
             const parented = new WinJS.Promise(function (c) { parentedComplete = c; });
@@ -122,9 +65,9 @@ const navigator: PageControlNavigatorStatic = WinJS.Class.define(function (this:
             this._lastNavigationPromise.cancel();
 
             this._lastNavigationPromise = WinJS.Promise.timeout().then(function () {
-                return requirePromise([url]);
+                return requirePromise([args.detail.location]);
             }).then(function () {
-                return WinJS.UI.Pages.render(url, newElement, args.detail.state, parented);
+                return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
             }, () => {
                 this.dispatchEvent("404", {});
             }).then(() => {
