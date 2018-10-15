@@ -1,41 +1,62 @@
-define(["require", "exports", "winjs", "requirepromise", "stateManager"], function (require, exports, WinJS, requirepromise_1, stateManager_1) {
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventMixin"], function (require, exports, WinJS, requirepromise_1, stateManager_1, EventMixin_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var navigator = WinJS.Class.define(function (element, options) {
-        this.name = options.name;
-        var us = stateManager_1.default.register(this.name);
-        this._element = element || document.createElement("div");
-        this._element.appendChild(this._createPageElement());
-        this._lastNavigationPromise = WinJS.Promise.as();
-        us.addEventListener("navigated", this._navigated.bind(this), false);
-        us.addEventListener("navigating", this._navigating.bind(this), false);
-    }, {
-        pageControl: {
+    var PageControlNavigator = (function (_super) {
+        __extends(PageControlNavigator, _super);
+        function PageControlNavigator(element, options) {
+            var _this = _super.call(this) || this;
+            _this.name = options.name;
+            var us = stateManager_1.default.register(_this.name);
+            _this._element = element || document.createElement("div");
+            _this._element.appendChild(_this._createPageElement());
+            _this._lastNavigationPromise = WinJS.Promise.as();
+            us.addEventListener("navigated", _this._navigated.bind(_this), false);
+            us.addEventListener("navigating", _this._navigating.bind(_this), false);
+            return _this;
+        }
+        Object.defineProperty(PageControlNavigator.prototype, "pageControl", {
             get: function () {
                 return this.pageElement.winControl;
-            }
-        },
-        pageElement: {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(PageControlNavigator.prototype, "pageElement", {
             get: function () {
                 return this._element.firstElementChild;
-            }
-        },
-        _createPageElement: function () {
+            },
+            enumerable: true,
+            configurable: true
+        });
+        PageControlNavigator.prototype._createPageElement = function () {
             var element = document.createElement("div");
             element.style.width = "100%";
             element.style.height = "100%";
             return element;
-        },
-        _getAnimationElements: function () {
+        };
+        PageControlNavigator.prototype._getAnimationElements = function () {
             if (this.pageControl && this.pageControl.getAnimationElements) {
                 return this.pageControl.getAnimationElements();
             }
             return this.pageElement;
-        },
-        _navigated: function (args) {
+        };
+        PageControlNavigator.prototype._navigated = function (args) {
             WinJS.UI.Animation.enterPage(this._getAnimationElements()).done();
-        },
-        _navigating: function (args) {
+        };
+        PageControlNavigator.prototype._navigating = function (args) {
             var _this = this;
             var newElement = this._createPageElement();
             var parentedComplete;
@@ -62,10 +83,12 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
                 parentedComplete();
             });
             args.detail.setPromise(this._lastNavigationPromise);
-        }
-    });
-    WinJS.Class.mix(navigator, WinJS.Utilities.eventMixin);
+        };
+        return PageControlNavigator;
+    }(EventMixin_1.default));
+    exports.default = PageControlNavigator;
+    WinJS.Utilities.markSupportedForProcessing(PageControlNavigator);
     WinJS.Namespace.define("Shmuelie", {
-        PageControlNavigator: navigator
+        PageControlNavigator: PageControlNavigator
     });
 });
