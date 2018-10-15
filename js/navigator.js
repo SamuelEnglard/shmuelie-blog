@@ -11,7 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventMixin"], function (require, exports, WinJS, requirepromise_1, stateManager_1, EventMixin_1) {
+define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventMixin"], function (require, exports, WinJS, requirepromise_1, StateManager, EventMixin_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var PageControlNavigator = (function (_super) {
@@ -19,7 +19,7 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventM
         function PageControlNavigator(element, options) {
             var _this = _super.call(this) || this;
             _this.name = options.name;
-            var us = stateManager_1.default.register(_this.name);
+            var us = StateManager.register(_this.name);
             _this._element = element || document.createElement("div");
             _this._element.appendChild(_this._createPageElement());
             _this._lastNavigationPromise = WinJS.Promise.as();

@@ -1,6 +1,6 @@
 import * as WinJS from 'winjs'
 import requirePromise from 'requirepromise'
-import stateManager from 'stateManager'
+import * as StateManager from 'stateManager'
 import EventMixin from 'EventMixin'
 
 export default class PageControlNavigator extends EventMixin {
@@ -11,7 +11,7 @@ export default class PageControlNavigator extends EventMixin {
     constructor(element: HTMLElement, options: { name: string }) {
         super();
         this.name = options.name;
-        const us = stateManager.register(this.name);
+        const us = StateManager.register(this.name);
         this._element = element || document.createElement("div");
         this._element.appendChild(this._createPageElement());
         this._lastNavigationPromise = WinJS.Promise.as<void>();
