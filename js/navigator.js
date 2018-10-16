@@ -50,7 +50,10 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
                 return requirepromise_1.default([args.detail.location]);
             }).then(function () {
                 return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
-            }, function () {
+            }, function (e) {
+                if (e.name === "Canceled") {
+                    return;
+                }
                 return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
             }).then(function () {
                 var oldElement = _this.pageElement;

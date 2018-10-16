@@ -49,7 +49,10 @@ export default class PageControlNavigator {
             return requirePromise([args.detail.location]);
         }).then(function () {
             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
-        }, function () {
+        }, function (e: Error) {
+            if (e.name === "Canceled") {
+                return;
+            }
             return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
         }).then(() => {
             const oldElement = this.pageElement;
