@@ -14,7 +14,7 @@ declare class EventMixin {
      * @param eventProperties The set of additional properties to be attached to the event object when the event is raised.
      * @returns true if preventDefault was called on the event.
     **/
-    protected dispatchEvent(type: string, eventProperties: any): boolean;
+    dispatchEvent(type: string, eventProperties: any): boolean;
     /**
      * Removes an event listener from the control.
      * @param type The type (name) of the event.
