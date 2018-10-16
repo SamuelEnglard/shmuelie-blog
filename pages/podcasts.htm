@@ -1,1 +1,8 @@
 <h1 class="win-h1">Podcasts</h1>
+<div data-win-control="WinJS.Binding.Template" id="podcastTemplate">
+    <div class="podcast">
+        <h2 data-win-bind="textContent: title"></h2>
+        <img data-win-bind="src: image; alt: title" />
+    </div>
+</div>
+<div data-win-control="WinJS.UI.Repeater" data-win-options="{template:select('#podcastTemplate')}" data-win-bind="data:podcasts"></div>

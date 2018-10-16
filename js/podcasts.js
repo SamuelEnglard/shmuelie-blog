@@ -5,7 +5,8 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
     WinJS.UI.Pages.define(podcastsPageUrl, {
         ready: function (element, options) {
             WinJS.UI.processAll(element);
-        }
+        },
+        render: function () { }
     });
     exports.default = podcastsPageUrl;
 });
