@@ -1,31 +1,15 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    }
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventMixin"], function (require, exports, WinJS, requirepromise_1, StateManager, EventMixin_1) {
+define(["require", "exports", "winjs", "requirepromise", "stateManager"], function (require, exports, WinJS, requirepromise_1, StateManager) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var PageControlNavigator = (function (_super) {
-        __extends(PageControlNavigator, _super);
+    var PageControlNavigator = (function () {
         function PageControlNavigator(element, options) {
-            var _this = _super.call(this) || this;
-            _this.name = options.name;
-            var us = StateManager.register(_this.name);
-            _this._element = element || document.createElement("div");
-            _this._element.appendChild(_this._createPageElement());
-            _this._lastNavigationPromise = WinJS.Promise.as();
-            us.addEventListener("navigated", _this._navigated.bind(_this), false);
-            us.addEventListener("navigating", _this._navigating.bind(_this), false);
-            return _this;
+            this.name = options.name;
+            var us = StateManager.register(this.name);
+            this._element = element || document.createElement("div");
+            this._element.appendChild(this._createPageElement());
+            this._lastNavigationPromise = WinJS.Promise.as();
+            us.addEventListener("navigated", this._navigated.bind(this), false);
+            us.addEventListener("navigating", this._navigating.bind(this), false);
         }
         Object.defineProperty(PageControlNavigator.prototype, "pageControl", {
             get: function () {
@@ -67,7 +51,7 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventM
             }).then(function () {
                 return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
             }, function () {
-                _this.dispatchEvent("404", {});
+                return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
             }).then(function () {
                 var oldElement = _this.pageElement;
                 var innerButtonElement = document.getElementById('innerButton');
@@ -85,7 +69,7 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager", "EventM
             args.detail.setPromise(this._lastNavigationPromise);
         };
         return PageControlNavigator;
-    }(EventMixin_1.default));
+    }());
     exports.default = PageControlNavigator;
     WinJS.Utilities.markSupportedForProcessing(PageControlNavigator);
     WinJS.Namespace.define("Shmuelie", {

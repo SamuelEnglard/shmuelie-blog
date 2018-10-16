@@ -1,15 +1,13 @@
 import * as WinJS from 'winjs'
 import requirePromise from 'requirepromise'
 import * as StateManager from 'stateManager'
-import EventMixin from 'EventMixin'
 
-export default class PageControlNavigator extends EventMixin {
+export default class PageControlNavigator {
     private _element: HTMLElement
     private _lastNavigationPromise: WinJS.IPromise<void>
     name: string
 
     constructor(element: HTMLElement, options: { name: string }) {
-        super();
         this.name = options.name;
         const us = StateManager.register(this.name);
         this._element = element || document.createElement("div");
@@ -51,8 +49,8 @@ export default class PageControlNavigator extends EventMixin {
             return requirePromise([args.detail.location]);
         }).then(function () {
             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
-        }, () => {
-            this.dispatchEvent("404", {});
+        }, function () {
+            return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
         }).then(() => {
             const oldElement = this.pageElement;
 
