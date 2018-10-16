@@ -1,6 +1,7 @@
-define(["require", "exports", "winjs", "navigator"], function (require, exports, WinJS, navigator_1) {
+define(["require", "exports", "winjs", "navigator"], function (require, exports, WinJS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var nav = WinJS.Navigation;
     var winJsStyle = document.querySelector("link#winjsstyle");
     winJsStyle.href = winJsStyle.dataset.dark;
     WinJS.Utilities.ready().then(function () {
@@ -14,7 +15,7 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
         WinJS.Utilities.children(document.querySelector(".nav-commands")).forEach(function (value) {
             var splitViewCommand = value.winControl;
             splitViewCommand.addEventListener("invoked", function () {
-                navigator_1.default(value.dataset.nav);
+                nav.navigate("#main://" + value.dataset.nav);
                 splitView.closePane();
             });
         });
@@ -62,5 +63,12 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
         }
         window.addEventListener("resize", calculateSplitViewDisplayModes);
         calculateSplitViewDisplayModes();
+    }).then(function () {
+        if (location.hash.length > 0) {
+            nav.navigate(location.hash);
+        }
+        else {
+            location.hash = "#main://pages/home.htm";
+        }
     });
 });

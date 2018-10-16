@@ -15,17 +15,17 @@
                 <div class="title" data-win-bind="innerText: document.title"></div>
             </div>
             <div class="nav-commands">
-                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="home" data-win-options="{label:'Home',icon:'home'}"></div>
-                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="blog" data-win-options="{label:'Blog',icon:'edit'}"></div>
-                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="podcasts" data-win-options="{label:'Podcasts',icon:'microphone'}"></div>
-                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="contact" data-win-options="{label:'Contact Info',icon:'contactinfo'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="pages/home.htm" data-win-options="{label:'Home',icon:'home'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="pages/blog.htm" data-win-options="{label:'Blog',icon:'edit'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="pages/podcasts.htm" data-win-options="{label:'Podcasts',icon:'microphone'}"></div>
+                <div data-win-control="WinJS.UI.SplitViewCommand" data-nav="pages/contact.htm" data-win-options="{label:'Contact Info',icon:'contactinfo'}"></div>
             </div>
         </div>
         <button class="small-toggle" data-win-control="WinJS.UI.SplitViewPaneToggle" data-win-options="{ splitView: select('.splitView') }"></button>
         <header data-win-control="WinJS.UI.ToolBar">
             <button class="styletoggle" data-win-control="WinJS.UI.Command" data-win-options="{type:'toggle'}"></button>
         </header>
-        <div class="content-area" data-win-control="Shmuelie.PageControlNavigator" data-win-options="{ home: 'home' }"></div>
+        <div class="content-area" data-win-control="Shmuelie.PageControlNavigator" data-win-options="{ name: 'main' }"></div>
     </div>
     <script async data-main="js/requirejs.config.js" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
 </body>

@@ -1,5 +1,7 @@
 import * as WinJS from 'winjs'
-import pageNavigate from 'navigator'
+import 'navigator'
+
+const nav = WinJS.Navigation;
 
 let winJsStyle: HTMLLinkElement = <HTMLLinkElement>document.querySelector("link#winjsstyle");
 winJsStyle.href = <string>winJsStyle.dataset.dark;
@@ -10,12 +12,12 @@ WinJS.Utilities.ready().then(function () {
     return WinJS.UI.processAll(document.body);
 }, function (e) {
     console.log(e);
-    }).then(function () {
+}).then(function () {
     let splitView: WinJS.UI.SplitView = (<HTMLElement>document.querySelector("div.splitView")).winControl;
     WinJS.Utilities.children(<HTMLElement>document.querySelector(".nav-commands")).forEach(function (value) {
         let splitViewCommand: WinJS.UI.SplitViewCommand = value.winControl;
         splitViewCommand.addEventListener("invoked", function () {
-            pageNavigate(<string>value.dataset.nav);
+            nav.navigate("#main://" + value.dataset.nav);
             splitView.closePane();
         });
     });
@@ -62,4 +64,11 @@ WinJS.Utilities.ready().then(function () {
     }
     window.addEventListener("resize", calculateSplitViewDisplayModes);
     calculateSplitViewDisplayModes();
+    }).then(function () {
+        if (location.hash.length > 0) {
+            nav.navigate(location.hash);
+        }
+        else {
+            location.hash = "#main://pages/home.htm";
+        }
 });
