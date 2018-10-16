@@ -52,13 +52,14 @@ let podcasts = [
     "https://www.relay.fm/rocket/feed",
     "http://atp.fm/episodes?format=rss",
     "http://www.pwop.com/feed.aspx?show=dotnetrocks",
-    "http://www.pwop.com/feed.aspx?show=runasradio"
+    "http://www.pwop.com/feed.aspx?show=runasradio",
+    "http://behindthetech.mpsn.libsynpro.com/rss"
 ];
 WinJS.UI.Pages.define(podcastsPageUrl, {
     ready: function (this: PodcastsPageControl, element: HTMLElement, options: any): void {
-        WinJS.Binding.processAll(element, WinJS.Binding.as({ podcasts: this.podcasts }), false);
+        (<WinJS.UI.Repeater>(<HTMLElement>document.querySelector("#podcastRepeated")).winControl).data = this.podcasts;
     },
-    init: function (this: PodcastsPageControl, element: HTMLElement, options: any): WinJS.Promise<void> {
+    init: function (this: PodcastsPageControl, element: HTMLElement, options: any): WinJS.Promise<void> | void {
         return WinJS.Promise.join(podcasts.map(function (value) {
             return WinJS.xhr({ url: "https://api.rss2json.com/v1/api.json?rss_url=" + value }).then(function (xhr) {
                 return (<RssResponse>JSON.parse(xhr.responseText)).feed;

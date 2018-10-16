@@ -41,10 +41,12 @@
 
 .win-splitview-content .content-area
 {
-    margin: 5px;
+    padding: 5px;
+    overflow-y: auto;
+    height: calc(-58px + 100%);
 }
 
-button.styletoggle .win-commandimage:after
+.styletoggle .win-commandimage:after
 {
     font-family: Arial;
     content: "\263C";

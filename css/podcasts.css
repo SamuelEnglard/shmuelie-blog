@@ -1,0 +1,17 @@
+.podcast
+{
+    float: left;
+    max-width: 256px;
+    margin: 5px;
+}
+
+    .podcast img
+    {
+        max-width: 64px;
+        float: left;
+    }
+
+    .podcast p
+    {
+        text-align: center;
+    }

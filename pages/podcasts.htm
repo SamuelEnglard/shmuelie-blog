@@ -1,8 +1,12 @@
+<link rel="stylesheet" href="../css/podcasts.css" />
 <h1 class="win-h1">Podcasts</h1>
 <div data-win-control="WinJS.Binding.Template" id="podcastTemplate">
     <div class="podcast">
-        <h2 data-win-bind="textContent: title"></h2>
-        <img data-win-bind="src: image; alt: title" />
+        <h2 class="win-h2" data-win-bind="textContent: title"></h2>
+        <a class="win-link" data-win-bind="href: image" target="_blank"><img data-win-bind="src: image; alt: title" /></a>
+        <p class="win-type-caption" data-win-bind="textContent: author"></p>
+        <p class="win-type-caption" data-win-bind="textContent: description"></p>
+        <a class="win-link" data-win-bind="href: link; textContent: link" target="_blank" hreflang="en-us"></a>
     </div>
 </div>
-<div data-win-control="WinJS.UI.Repeater" data-win-options="{template:select('#podcastTemplate')}" data-win-bind="data:podcasts"></div>
+<div id="podcastRepeated" data-win-control="WinJS.UI.Repeater" data-win-options="{template:select('#podcastTemplate')}"></div>
