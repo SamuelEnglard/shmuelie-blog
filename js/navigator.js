@@ -52,7 +52,7 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
                 return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);
             }, function (e) {
                 if (e.name === "Canceled") {
-                    return;
+                    return WinJS.UI.Pages.render("pages/loading.htm", newElement, args.detail.state, parented);
                 }
                 return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
             }).then(function () {
