@@ -5,10 +5,12 @@ import * as StateManager from 'stateManager'
 export default class PageControlNavigator {
     private _element: HTMLElement
     private _lastNavigationPromise: WinJS.IPromise<void>
-    name: string
+    readonly name: string
+    readonly noScript: boolean
 
-    constructor(element: HTMLElement, options: { name: string }) {
+    constructor(element: HTMLElement, options: { name: string, noScript?: boolean }) {
         this.name = options.name;
+        this.noScript = options.noScript || false;
         const us = StateManager.register(this.name);
         this._element = element || document.createElement("div");
         this._element.appendChild(this._createPageElement());
@@ -45,7 +47,10 @@ export default class PageControlNavigator {
 
         this._lastNavigationPromise.cancel();
 
-        this._lastNavigationPromise = WinJS.Promise.timeout().then(function () {
+        this._lastNavigationPromise = WinJS.Promise.timeout().then(() => {
+            if (this.noScript) {
+                return WinJS.Promise.as();
+            }
             return requirePromise([args.detail.location]);
         }).then(function () {
             return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);

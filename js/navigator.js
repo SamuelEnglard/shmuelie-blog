@@ -4,6 +4,7 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
     var PageControlNavigator = (function () {
         function PageControlNavigator(element, options) {
             this.name = options.name;
+            this.noScript = options.noScript || false;
             var us = StateManager.register(this.name);
             this._element = element || document.createElement("div");
             this._element.appendChild(this._createPageElement());
@@ -47,6 +48,9 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
             var parented = new WinJS.Promise(function (c) { parentedComplete = c; });
             this._lastNavigationPromise.cancel();
             this._lastNavigationPromise = WinJS.Promise.timeout().then(function () {
+                if (_this.noScript) {
+                    return WinJS.Promise.as();
+                }
                 return requirepromise_1.default([args.detail.location]);
             }).then(function () {
                 return WinJS.UI.Pages.render(args.detail.location, newElement, args.detail.state, parented);

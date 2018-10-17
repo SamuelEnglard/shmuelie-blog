@@ -1,1 +1,16 @@
+<link rel="stylesheet" href="../css/blog.css" />
 <h1 class="win-h1">Blog</h1>
+<div class="messageTemplate" data-win-control="WinJS.Binding.Template">
+    <div class="message">
+        <div class="userIcon"><img src="#" data-win-bind="src: icon" /></div>
+        <div class="messageContent">
+            <div class="contactInformation">
+                <div class="contactName" data-win-bind="textContent: name"></div>
+                <div class="contactTime" data-win-bind="textContent: time;"></div>
+            </div>
+            <div class="messagePreview" data-win-bind="textContent: messageText;"></div>
+        </div>
+    </div>
+</div>
+<div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect', layout: { type: WinJS.UI.ListLayout } }"></div>
+<div class="content-area" data-win-control="Shmuelie.PageControlNavigator" data-win-options="{ name: 'blog', noScript: true }"></div>

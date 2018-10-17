@@ -68,7 +68,7 @@ function processNavigation(location: string, eventName: string, eventProperties:
     const newHash = parseHash(location);
     const currentHash = parseHash(window.location.hash);
     Object.getOwnPropertyNames(newHash).forEach((name) => {
-        const user = users[name];
+        const user = users[name] || null;
         if (user !== null) {
             currentHash[name] = newHash[name];
             const props = {

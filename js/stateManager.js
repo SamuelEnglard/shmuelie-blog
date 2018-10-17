@@ -56,7 +56,7 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         var newHash = parseHash(location);
         var currentHash = parseHash(window.location.hash);
         Object.getOwnPropertyNames(newHash).forEach(function (name) {
-            var user = users[name];
+            var user = users[name] || null;
             if (user !== null) {
                 currentHash[name] = newHash[name];
                 var props = {
