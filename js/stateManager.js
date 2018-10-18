@@ -51,6 +51,7 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
     function navigating(eventInfo) {
         processNavigation(eventInfo.detail.location, "navigating", eventInfo.detail);
     }
+    var loaded = true;
     function processNavigation(location, eventName, eventProperties) {
         window.removeEventListener("hashchange", updateHash);
         var newHash = parseHash(location);
@@ -58,6 +59,9 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         Object.getOwnPropertyNames(newHash).forEach(function (name) {
             var user = users[name] || null;
             if (user !== null) {
+                if (loaded && currentHash[name] === newHash[name]) {
+                    return;
+                }
                 currentHash[name] = newHash[name];
                 var props = {
                     location: newHash[name]
@@ -75,6 +79,15 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
     function register(name) {
         var user = new RegisteredUser(name);
         users[name] = user;
+        setImmediate(function () {
+            var currentHash = parseHash(window.location.hash);
+            if (currentHash[name]) {
+                var tempLoaded = loaded;
+                loaded = false;
+                nav.navigate("#" + name + "://" + currentHash[name]);
+                loaded = tempLoaded;
+            }
+        });
         return user;
     }
     exports.register = register;

@@ -65,10 +65,7 @@ WinJS.Utilities.ready().then(function () {
     window.addEventListener("resize", calculateSplitViewDisplayModes);
     calculateSplitViewDisplayModes();
     }).then(function () {
-        if (location.hash.length > 0) {
-            nav.navigate(location.hash);
-        }
-        else {
+        if (location.hash.length === 0) {
             location.hash = "#main://pages/home.htm";
         }
 });

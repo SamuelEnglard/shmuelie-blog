@@ -9,17 +9,17 @@ class RegisteredUser extends EventMixin {
     }
 }
 
-interface BeforeNavigateDetails {
+export interface BeforeNavigateDetails {
     location: string;
     state: any;
 }
 
-interface NavigatedDetails {
+export interface NavigatedDetails {
     location: string;
     state: any;
 }
 
-interface NavigatingDetails {
+export interface NavigatingDetails {
     location: string;
     state: any;
     delta: number;
@@ -63,6 +63,8 @@ function navigating(eventInfo: CustomEvent<NavigatingDetails>): void {
     processNavigation(eventInfo.detail.location, "navigating", eventInfo.detail);
 }
 
+let loaded = true;
+
 function processNavigation(location: string, eventName: string, eventProperties: any): void {
     window.removeEventListener("hashchange", updateHash);
     const newHash = parseHash(location);
@@ -70,6 +72,9 @@ function processNavigation(location: string, eventName: string, eventProperties:
     Object.getOwnPropertyNames(newHash).forEach((name) => {
         const user = users[name] || null;
         if (user !== null) {
+            if (loaded && currentHash[name] === newHash[name]) {
+                return;
+            }
             currentHash[name] = newHash[name];
             const props = {
                 location: newHash[name]
@@ -89,6 +94,15 @@ function updateHash(): void {
 export function register(name: string): RegisteredUser {
     const user = new RegisteredUser(name);
     users[name] = user;
+    setImmediate(function () {
+        const currentHash = parseHash(window.location.hash);
+        if (currentHash[name]) {
+            const tempLoaded = loaded;
+            loaded = false;
+            nav.navigate("#" + name + "://" + currentHash[name]);
+            loaded = tempLoaded;
+        }
+    });
     return user;
 }
 
