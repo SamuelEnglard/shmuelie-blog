@@ -42,18 +42,22 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         }).join("");
     }
     var users = {};
+    var beforenavigatedEvent = "beforenavigated";
     function beforeNavigate(eventInfo) {
-        processNavigation(eventInfo.detail.location, "beforenavigated", eventInfo.detail);
+        processNavigation(eventInfo.detail.location, beforenavigatedEvent, eventInfo.detail);
     }
+    var navigatedEvent = "navigated";
     function navigated(eventInfo) {
-        processNavigation(eventInfo.detail.location, "navigated", eventInfo.detail);
+        processNavigation(eventInfo.detail.location, navigatedEvent, eventInfo.detail);
     }
+    var navigatingEvent = "navigating";
     function navigating(eventInfo) {
-        processNavigation(eventInfo.detail.location, "navigating", eventInfo.detail);
+        processNavigation(eventInfo.detail.location, navigatingEvent, eventInfo.detail);
     }
     var loaded = true;
+    var hashchangeEvent = "hashchange";
     function processNavigation(location, eventName, eventProperties) {
-        window.removeEventListener("hashchange", updateHash);
+        window.removeEventListener(hashchangeEvent, updateHash);
         var newHash = parseHash(location);
         var currentHash = parseHash(window.location.hash);
         Object.getOwnPropertyNames(newHash).forEach(function (name) {
@@ -62,7 +66,9 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
                 if (loaded && currentHash[name] === newHash[name]) {
                     return;
                 }
-                currentHash[name] = newHash[name];
+                if (eventName === navigatedEvent) {
+                    currentHash[name] = newHash[name];
+                }
                 var props = {
                     location: newHash[name]
                 };
@@ -71,7 +77,7 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
             }
         });
         window.location.hash = buildHash(currentHash);
-        window.addEventListener("hashchange", updateHash);
+        window.addEventListener(hashchangeEvent, updateHash);
     }
     function updateHash() {
         nav.navigate(location.hash);
@@ -95,8 +101,8 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         users[user.name] = null;
     }
     exports.unregister = unregister;
-    nav.addEventListener("beforenavigate", beforeNavigate, false);
-    nav.addEventListener("navigated", navigated, false);
-    nav.addEventListener("navigating", navigating, false);
-    window.addEventListener("hashchange", updateHash);
+    nav.addEventListener(beforenavigatedEvent, beforeNavigate, false);
+    nav.addEventListener(navigatedEvent, navigated, false);
+    nav.addEventListener(navigatingEvent, navigating, false);
+    window.addEventListener(hashchangeEvent, updateHash);
 });

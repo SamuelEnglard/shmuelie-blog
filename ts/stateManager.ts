@@ -51,22 +51,26 @@ function buildHash(map: { [name: string]: string }): string {
 
 const users: { [name: string]: RegisteredUser | null } = {};
 
+const beforenavigatedEvent = "beforenavigated";
 function beforeNavigate(eventInfo: CustomEvent<BeforeNavigateDetails>): void {
-    processNavigation(eventInfo.detail.location, "beforenavigated", eventInfo.detail);
+    processNavigation(eventInfo.detail.location, beforenavigatedEvent, eventInfo.detail);
 }
 
+const navigatedEvent = "navigated";
 function navigated(eventInfo: CustomEvent<NavigatedDetails>): void {
-    processNavigation(eventInfo.detail.location, "navigated", eventInfo.detail);
+    processNavigation(eventInfo.detail.location, navigatedEvent, eventInfo.detail);
 }
 
+const navigatingEvent = "navigating";
 function navigating(eventInfo: CustomEvent<NavigatingDetails>): void {
-    processNavigation(eventInfo.detail.location, "navigating", eventInfo.detail);
+    processNavigation(eventInfo.detail.location, navigatingEvent, eventInfo.detail);
 }
 
 let loaded = true;
 
+const hashchangeEvent = "hashchange";
 function processNavigation(location: string, eventName: string, eventProperties: any): void {
-    window.removeEventListener("hashchange", updateHash);
+    window.removeEventListener(hashchangeEvent, updateHash);
     const newHash = parseHash(location);
     const currentHash = parseHash(window.location.hash);
     Object.getOwnPropertyNames(newHash).forEach((name) => {
@@ -75,7 +79,9 @@ function processNavigation(location: string, eventName: string, eventProperties:
             if (loaded && currentHash[name] === newHash[name]) {
                 return;
             }
-            currentHash[name] = newHash[name];
+            if (eventName === navigatedEvent) {
+                currentHash[name] = newHash[name];
+            }
             const props = {
                 location: newHash[name]
             };
@@ -84,7 +90,7 @@ function processNavigation(location: string, eventName: string, eventProperties:
         }
     });
     window.location.hash = buildHash(currentHash);
-    window.addEventListener("hashchange", updateHash);
+    window.addEventListener(hashchangeEvent, updateHash);
 }
 
 function updateHash(): void {
@@ -110,7 +116,7 @@ export function unregister(user: RegisteredUser): void {
     users[user.name] = null;
 }
 
-nav.addEventListener("beforenavigate", beforeNavigate, false);
-nav.addEventListener("navigated", navigated, false);
-nav.addEventListener("navigating", navigating, false);
-window.addEventListener("hashchange", updateHash);
+nav.addEventListener(beforenavigatedEvent, beforeNavigate, false);
+nav.addEventListener(navigatedEvent, navigated, false);
+nav.addEventListener(navigatingEvent, navigating, false);
+window.addEventListener(hashchangeEvent, updateHash);
