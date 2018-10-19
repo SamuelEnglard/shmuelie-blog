@@ -14,14 +14,26 @@ define(["require", "exports", "winjs", "stateManager"], function (require, expor
             postList.itemDataSource = posts.dataSource;
             postList.addEventListener("iteminvoked", function (e) {
                 WinJS.Navigation.navigate("#blog://" + posts.getAt(e.detail.itemIndex).url);
+                WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
+                WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
             });
             var user = StateManager.register("blog");
-            var contentArea = element.querySelector(".win-splitview-content");
+            var blogSplit = element.querySelector(".blog-split");
+            var contentArea = blogSplit.querySelector("article");
+            var contentHeader = blogSplit.querySelector(".article-header");
+            var backButton = contentHeader.querySelector(".win-navigation-backbutton");
+            backButton.addEventListener("click", function () {
+                WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-closed");
+                WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-opened");
+            });
             user.addEventListener("navigated", function (e) {
                 var selectedPost = postByUrl.groups.getItemFromKey(e.detail.location).data;
                 postList.selection.set(posts.indexOf(selectedPost));
+                WinJS.Binding.processAll(contentHeader, selectedPost);
                 contentArea.innerHTML = "";
                 WinJS.UI.Fragments.renderCopy(e.detail.location, contentArea);
+                WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
+                WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
             });
         }
     });

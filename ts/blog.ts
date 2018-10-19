@@ -23,14 +23,26 @@ WinJS.UI.Pages.define("pages/blog.htm", {
         postList.itemDataSource = posts.dataSource;
         postList.addEventListener("iteminvoked", function (e: CustomEvent<{ itemIndex: number }>) {
             WinJS.Navigation.navigate("#blog://" + posts.getAt(e.detail.itemIndex).url);
+            WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
+            WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
         });
         const user = StateManager.register("blog");
-        const contentArea: HTMLDivElement = <HTMLDivElement>element.querySelector(".win-splitview-content");
+        const blogSplit: HTMLDivElement = <HTMLDivElement>element.querySelector(".blog-split");
+        const contentArea: HTMLElement = <HTMLElement>blogSplit.querySelector("article");
+        const contentHeader: HTMLDivElement = <HTMLDivElement>blogSplit.querySelector(".article-header");
+        const backButton: HTMLButtonElement = <HTMLButtonElement>contentHeader.querySelector(".win-navigation-backbutton");
+        backButton.addEventListener("click", function () {
+            WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-closed");
+            WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-opened");
+        });
         user.addEventListener("navigated", (e: CustomEvent<StateManager.NavigatedDetails>) => {
             const selectedPost = postByUrl.groups.getItemFromKey(e.detail.location).data;
             postList.selection.set(posts.indexOf(selectedPost));
+            WinJS.Binding.processAll(contentHeader, selectedPost);
             contentArea.innerHTML = "";
             WinJS.UI.Fragments.renderCopy(e.detail.location, contentArea);
+            WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
+            WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
         });
     }
 });

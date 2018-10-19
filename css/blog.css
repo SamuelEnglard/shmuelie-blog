@@ -1,3 +1,16 @@
+@font-face
+{
+    font-family: "Symbols";
+    src: url(https://cdnjs.cloudflare.com/ajax/libs/winjs/4.4.3/fonts/Symbols.ttf);
+}
+
+.icon
+{
+    font-family: "Symbols";
+    display: inline-block;
+    margin: 0 5px;
+}
+
 .message
 {
     width: calc(100% - 48px);
@@ -66,9 +79,38 @@
     height: 100%;
 }
 
-.blog-split.win-splitview.win-splitview-pane-opened.win-splitview-placementleft .win-splitview-pane
+@media only screen and (max-width: 800px)
 {
-    width: 320px;
+    .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-contentwrapper,
+    .blog-split.win-splitview.win-splitview-pane-closed .win-splitview-pane
+    {
+        display: none;
+    }
+    .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-panewrapper,
+    .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-pane
+    {
+        width: 100%;
+        display: block;
+    }
+}
+@media only screen and (min-width: 801px)
+{
+    .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-pane,
+    .blog-split.win-splitview.win-splitview-pane-closed .win-splitview-pane
+    {
+        width: 320px;
+        display: block;
+    }
+
+    .blog-split .article-header .win-navigation-backbutton
+    {
+        display: none;
+    }
+}
+
+.blog-split .article-header h2
+{
+    display: inline;
 }
 
 .blog-split .win-splitview-content
@@ -76,4 +118,9 @@
     padding-top: 25px;
     padding-left: 25px;
     width: calc(-50px + 100%);
+}
+
+.all-applications::before
+{
+    content: "\E179";
 }
