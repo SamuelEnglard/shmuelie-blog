@@ -1,5 +1,4 @@
 <link rel="stylesheet" href="../css/blog.css" />
-<h1 class="win-h1">Blog</h1>
 <div class="messageTemplate" data-win-control="WinJS.Binding.Template">
     <div class="message">
         <div class="userIcon"><img src="#" data-win-bind="src: icon" /></div>
@@ -12,4 +11,16 @@
         </div>
     </div>
 </div>
-<div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect', layout: { type: WinJS.UI.ListLayout } }"></div>
+<div class="blog-split win-splitview win-disposable win-splitview-pane-opened win-splitview-placementleft win-splitview-closeddisplayinline win-splitview-openeddisplayinline">
+    <div class="win-splitview-paneplaceholder"></div>
+    <div tabindex="-1" class="win-splitview-panewrapper">
+        <div tabindex="-1" class="win-splitview-pane">
+            <h1 class="win-h1">Blog</h1>
+            <div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect', layout: { type: WinJS.UI.ListLayout } }"></div>
+        </div>
+    </div>
+    <div class="win-splitview-contentwrapper">
+        <div class="win-splitview-content">
+        </div>
+    </div>
+</div>

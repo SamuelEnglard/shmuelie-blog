@@ -63,7 +63,17 @@
 
 .listView
 {
-    width: 390px;
-    height: calc(100% - 50px);
-    float: left;
+    height: 100%;
+}
+
+.blog-split.win-splitview.win-splitview-pane-opened.win-splitview-placementleft .win-splitview-pane
+{
+    width: 320px;
+}
+
+.blog-split .win-splitview-content
+{
+    padding-top: 25px;
+    padding-left: 25px;
+    width: calc(-50px + 100%);
 }
