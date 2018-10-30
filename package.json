@@ -3,12 +3,16 @@
     "@types/winjs": "4.4.0",
     "@types/requirejs": "2.1.31",
     "typescript": "3.0.3",
-    "@types/twitter": "0.0.28"
+    "@types/twitter": "0.0.28",
+    "@types/moment": "2.11.29"
   },
   "author": "shmuelie",
-  "dependencies": {
-    "winjs": "4.4.3"
-  },
+  "dependencies": {},
   "description": "Website for Shmueli Englard",
-  "name": "shmuelie-blog"
+  "name": "shmuelie-blog",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SamuelEnglard/shmuelie-blog"
+  }
 }

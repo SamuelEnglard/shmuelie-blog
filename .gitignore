@@ -5,3 +5,6 @@
 /.vs
 /node_modules
 package-lock.json
+/posts/tumblr/obj
+/posts/tumblr/bin
+/posts/tumblr/.vs

@@ -1,0 +1,11 @@
+
+        <p>Ryan Lange has a great post about <a href="http://ryan-lange.com/xna-game-studio-4-0-visual-studio-2012/" target="_blank">installing XNA in Visual Studio 2012</a> (and even one for getting the <a href="http://ryan-lange.com/xna-4-0-documentation-visual-studio-2012/" target="_blank">help offline</a>). While doing it I made some tweaks and had some notes on things you should know while doing it.</p>
+        <ul><li>You don’t actually need to install Visual Studio 2010 with XNA on the machine that is going to have 2012 on it. You just need a machine that has/had it, a program that can extract files from executables/MSIs (like zip), and the WP7.1 SDK in ISO form.<br />1) Copy the extension files from the machine that has/had 2010 with XNA installed as told said in step 1.<br />2) Open the ISO and navigate to “WCU\WindowsPhone”. In there is a file called “XNAGS40_setup.exe”. Sadly you can’t just run this. Extract it to a folder on your hard drive.<br />3) In the resulting files list there is a file called “redists.exe”. Sadly you can’t just run this either, you must extract it too.<br />4) Rename the files with “XML” in their name to have the extension “xml”, the ELUA with “rtf”, and the remaining files with “msi”. Once done run each MSI, and if there is an error ignore it.</li>
+        <li>Note that that running
+        <blockquote>
+        <div>&ldquo;C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\IDE\devenv.exe&rdquo; /setup</div>
+        </blockquote>
+        <p>can take some time, so watch it using something like Task Manager to see when it’s done.</p>
+        </li>
+        </ul><p><strong>EDIT 12/17/2013</strong> the trick still works in VS 2013, just have to make sure you change &ldquo;extension.vsixmanifest&rdquo; to have version 12.0 instead of 11.0 as the blog post above says.</p>
+      

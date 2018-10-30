@@ -1,0 +1,18 @@
+
+        <p>Welcome to Tumblr! Hopefully this blog will like me more than Blogger did.</p>
+        <p>I recently switch to Office 365 for my email, for a <a href="http://blog.englard.net/post/39359643549/the-quest-for-the-right-office365-plan" target="_blank">variety of reasons</a>. Hooking it up to Outlook 2013 has been a nightmare so I thought I&rsquo;d share how to do it so you don&rsquo;t go through it too.</p>
+        <ol><li>In the &ldquo;Add Account&rdquo; wizard select to configure the account manually and select an Exchange Account.</li>
+        <li>Next log in to the Outlook Web App for your Office 365 email. From here we&rsquo;re get all the information we need.</li>
+        <li>Open the &ldquo;About&rdquo; page under the help menu.</li>
+        <li>Copy the domain under &ldquo;Host address&rdquo;. Will look something like "https://bl2prd0812.outlook.com/owa" (so we want the bl2prd0812.outlook.com part).</li>
+        <li>Back in Outlook set the server to the domain we just copied but add .mailbox before outlook.com (bl2prd0812.mailbox.outlook.com)</li>
+        <li>Set the user name to your FULL email address (include the domain)</li>
+        <li>Open the more settings. In there go to the last tab, &ldquo;connection&rdquo;.</li>
+        <li>Check the &ldquo;use HTTP proxy&rdquo; checkbox.</li>
+        <li>Open the proxy settings.</li>
+        <li>Select ALL the checkboxes.</li>
+        <li>For the proxy URL give the domain from before (bl2prd0812.outlook.com).</li>
+        <li>For the principle name for certificates use &ldquo;msstd:outlook.com&rdquo; (without the quotes).</li>
+        <li>Finally set the authentication method to basic.</li>
+        </ol><p>And that should do it!</p>
+      

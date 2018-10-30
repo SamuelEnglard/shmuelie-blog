@@ -1,14 +1,8 @@
 <link rel="stylesheet" href="../css/blog.css" />
 <div class="messageTemplate" data-win-control="WinJS.Binding.Template">
     <div class="message">
-        <div class="userIcon"><img src="#" data-win-bind="src: icon" /></div>
-        <div class="messageContent">
-            <div class="contactInformation">
-                <div class="contactName" data-win-bind="textContent: name"></div>
-                <div class="contactTime" data-win-bind="textContent: time;"></div>
-            </div>
-            <div class="messagePreview" data-win-bind="textContent: messageText;"></div>
-        </div>
+        <div class="contactName" data-win-bind="textContent: title"></div>
+        <time class="messagePreview" data-win-bind="textContent: posted Shmuelie.momentFromNow; datetime: posted Shmuelie.momentISO"></time>
     </div>
 </div>
 <div class="blog-split win-splitview win-splitview-pane-opened win-splitview-placementleft">
@@ -16,14 +10,16 @@
     <div tabindex="-1" class="win-splitview-panewrapper">
         <div tabindex="-1" class="win-splitview-pane">
             <h1 class="win-h1">Blog</h1>
-            <div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect', layout: { type: WinJS.UI.ListLayout } }"></div>
+            <div class="listView-container">
+                <div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect' }"></div>
+            </div>
         </div>
     </div>
     <div class="win-splitview-contentwrapper">
         <div class="win-splitview-content">
             <div class="article-header">
                 <button class="win-navigation-backbutton"><div class="win-back"></div></button>
-                <h2 class="win-h2" data-win-bind="textContent: name"></h2>
+                <h2 class="win-h2" data-win-bind="textContent: title"></h2>
             </div>
             <article></article>
         </div>

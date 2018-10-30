@@ -1,7 +1,7 @@
 import * as WinJS from 'winjs'
 import EventMixin from './EventMixin';
 
-class RegisteredUser extends EventMixin {
+export class RegisteredUser extends EventMixin {
     name: string;
     constructor(name: string) {
         super();
@@ -43,8 +43,10 @@ function parseHash(url: string): { [name: string]: string } {
     return result;
 }
 
-function buildHash(map: { [name: string]: string }): string {
-    return Object.getOwnPropertyNames(map).map(function (name) {
+function buildHash(map: { [name: string]: string | null }): string {
+    return Object.getOwnPropertyNames(map).filter(function (name) {
+        return map[name] !== null;
+    }).map(function (name) {
         return "#" + name + "://" + map[name];
     }).join("");
 }
@@ -114,6 +116,11 @@ export function register(name: string): RegisteredUser {
 
 export function unregister(user: RegisteredUser): void {
     users[user.name] = null;
+    window.removeEventListener(hashchangeEvent, updateHash);
+    const currentHash: { [name: string]: string | null } = parseHash(window.location.hash);
+    currentHash[user.name] = null;
+    window.location.hash = buildHash(currentHash);
+    window.addEventListener(hashchangeEvent, updateHash);
 }
 
 nav.addEventListener(beforenavigatedEvent, beforeNavigate, false);

@@ -1,0 +1,6 @@
+
+        <p>In .NET and Mono we have this lovely property we can check for when we need to give in and make OS version based changes:</p>
+        <p><code class="text/x-csharp">Environment.OSVersion.Version</code></p>
+        <p> Today I went to go use this on my OSX application to work around a bug in MonoGame (<a href="https://github.com/mono/MonoGame/issues/1535" target="_blank">https://github.com/mono/MonoGame/issues/1535</a> for those wondering). The bug is only on Snow Leopard, which is version 10.6. But when I ran that method I got &ldquo;10.8.0.0&rdquo; which made no sense. Getting really curious now I ran the same code on my Mountain Lion (10.8) machine and got 12.2.1.0! In looking at that version number I noticed something else: The PlatformID Mono was reporting was Unix! That got me thinking: OSX runs on top of a BSD Unix core so maybe that&rsquo;s what Mono&rsquo;s reporting.</p>
+        <p>After some hunting around online I found <a href="http://bit.ly/n8i06" title="http://en.wikipedia.org/wiki/Darwin_(operating_system)" target="_blank">http://bit.ly/n8i06</a> which confirmed my thinking. In short OSX&rsquo;s core is based on the OS Darwin (A Unix variant) and that&rsquo;s the version Mono reports.</p>
+      

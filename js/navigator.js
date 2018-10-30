@@ -61,10 +61,6 @@ define(["require", "exports", "winjs", "requirepromise", "stateManager"], functi
                 return WinJS.UI.Pages.render("pages/404.htm", newElement, args.detail.state, parented);
             }).then(function () {
                 var oldElement = _this.pageElement;
-                var innerButtonElement = document.getElementById('innerButton');
-                if (innerButtonElement && innerButtonElement.winControl) {
-                    innerButtonElement.winControl.dispose();
-                }
                 if (oldElement.winControl && oldElement.winControl.unload) {
                     oldElement.winControl.unload();
                 }

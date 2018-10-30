@@ -1,48 +1,67 @@
 import * as WinJS from 'winjs'
 import * as StateManager from 'stateManager'
+import { BlogEntry, postByUrl, postsSortedByDate } from 'posts'
+import 'momentConverters'
+import DynamicListLayout from 'DynamicListLayout'
 
-interface BlogEntry {
-    name: string;
-    time: string;
-    messageText: string;
-    icon: string;
-    url: string;
+interface BlogControl extends WinJS.UI.Pages.IPageControlMembers {
+    user: StateManager.RegisteredUser;
+    unload(): void;
 }
 
-const posts = new WinJS.Binding.List<BlogEntry>([
-    { name: "HoloLens", icon: "images/people/person1.png", time: "8:05p", messageText: "Hololens at Build 2015", url: "posts/a.htm" },
-    { name: "Alonzo Swope", icon: "images/people/person5.png", time: "7:34p", messageText: "I think we're all set. See you at the meeting tomorrow!", url: "posts/b.htm" },
-    { name: "Heather Richmond", icon: "images/people/person7.png", time: "7:30p", messageText: "Let's schedule some time to review the latest reports.", url: "posts/c.htm" }
-]);
-const postByUrl = posts.createGrouped(function (x) { return x.url; }, function (x) { return x; });
-
-WinJS.UI.Pages.define("pages/blog.htm", {
-    ready: function (this: WinJS.UI.Pages.IPageControlMembers, element: HTMLElement, options: any): void {
+WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
+    ready: function (this: BlogControl, element: HTMLElement, options: any): void {
         element.setAttribute("dir", <string>window.getComputedStyle(element, null).direction);
+
         const postList: WinJS.UI.ListView<BlogEntry> = (<HTMLElement>element.querySelector(".listView")).winControl;
-        postList.itemDataSource = posts.dataSource;
+        const postListTemplate: WinJS.Binding.Template = (<HTMLElement>element.querySelector(".messageTemplate")).winControl;
+        postList.itemDataSource = postsSortedByDate.dataSource;
+        postList.layout = new DynamicListLayout(postListTemplate);
         postList.addEventListener("iteminvoked", function (e: CustomEvent<{ itemIndex: number }>) {
-            WinJS.Navigation.navigate("#blog://" + posts.getAt(e.detail.itemIndex).url);
-            WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
-            WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
+            WinJS.Navigation.navigate("#blog://" + postsSortedByDate.getAt(e.detail.itemIndex).url);
+
+            hidePostList();
         });
-        const user = StateManager.register("blog");
-        const blogSplit: HTMLDivElement = <HTMLDivElement>element.querySelector(".blog-split");
-        const contentArea: HTMLElement = <HTMLElement>blogSplit.querySelector("article");
-        const contentHeader: HTMLDivElement = <HTMLDivElement>blogSplit.querySelector(".article-header");
-        const backButton: HTMLButtonElement = <HTMLButtonElement>contentHeader.querySelector(".win-navigation-backbutton");
-        backButton.addEventListener("click", function () {
+
+        const blogSplit = <HTMLDivElement>element.querySelector(".blog-split");
+        function showPostList() {
             WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-closed");
             WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-opened");
-        });
-        user.addEventListener("navigated", (e: CustomEvent<StateManager.NavigatedDetails>) => {
-            const selectedPost = postByUrl.groups.getItemFromKey(e.detail.location).data;
-            postList.selection.set(posts.indexOf(selectedPost));
-            WinJS.Binding.processAll(contentHeader, selectedPost);
-            contentArea.innerHTML = "";
-            WinJS.UI.Fragments.renderCopy(e.detail.location, contentArea);
+        }
+        function hidePostList() {
             WinJS.Utilities.removeClass(blogSplit, "win-splitview-pane-opened");
             WinJS.Utilities.addClass(blogSplit, "win-splitview-pane-closed");
+        }
+
+        const contentHeader = <HTMLDivElement>blogSplit.querySelector(".article-header");
+
+        this.user = StateManager.register("blog");
+        this.user.addEventListener("navigated", (e: CustomEvent<StateManager.NavigatedDetails>) => {
+            const selectedPost = postByUrl.groups.getItemFromKey(e.detail.location).data;
+            const selectedIndex = postsSortedByDate.indexOf(selectedPost);
+            postList.selection.set(selectedIndex);
+            postList.ensureVisible(selectedIndex);
+
+            WinJS.Binding.processAll(contentHeader, selectedPost);
+
+            const currentArticle = <HTMLElement>blogSplit.querySelector("article");
+            const newArticle = <HTMLElement>document.createElement("article");
+            WinJS.UI.Fragments.renderCopy(e.detail.location, newArticle).then(function () {
+                return WinJS.UI.Animation.exitContent(currentArticle);
+            }).then(function () {
+                (<HTMLElement>currentArticle.parentElement).replaceChild(newArticle, currentArticle);
+                WinJS.UI.Animation.enterContent(newArticle);
+            });
+
+            hidePostList();
         });
+
+        const backButton = <HTMLButtonElement>contentHeader.querySelector(".win-navigation-backbutton");
+        backButton.addEventListener("click", function () {
+            showPostList();
+        });
+    },
+    unload: function (this: BlogControl): void {
+        StateManager.unregister(this.user);
     }
 });

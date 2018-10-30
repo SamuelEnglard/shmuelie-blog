@@ -23,7 +23,7 @@ export default class PageControlNavigator {
         return this.pageElement.winControl;
     }
     get pageElement(): Element {
-        return <Element>(<HTMLElement>this._element).firstElementChild;
+        return <Element>this._element.firstElementChild;
     }
     private _createPageElement(): HTMLDivElement {
         const element = document.createElement("div");
@@ -62,19 +62,12 @@ export default class PageControlNavigator {
         }).then(() => {
             const oldElement = this.pageElement;
 
-            // Dispose BackButton control
-            const innerButtonElement = document.getElementById('innerButton');
-            if (innerButtonElement && innerButtonElement.winControl) {
-                innerButtonElement.winControl.dispose();
-            }
-
             if (oldElement.winControl && oldElement.winControl.unload) {
                 oldElement.winControl.unload();
             }
-            (<HTMLElement>this._element).appendChild(newElement);
-            (<HTMLElement>this._element).removeChild(oldElement);
+            this._element.appendChild(newElement);
+            this._element.removeChild(oldElement);
             oldElement.textContent = "";
-            //this._updateBackButton();
             parentedComplete();
         });
 

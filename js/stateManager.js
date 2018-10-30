@@ -23,6 +23,7 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         }
         return RegisteredUser;
     }(EventMixin_1.default));
+    exports.RegisteredUser = RegisteredUser;
     var nav = WinJS.Navigation;
     var hashRegex = /#([a-z]+):\/\/([A-Za-z0-9\/_\-\.]+\.htm)/g;
     function parseHash(url) {
@@ -37,7 +38,9 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
         return result;
     }
     function buildHash(map) {
-        return Object.getOwnPropertyNames(map).map(function (name) {
+        return Object.getOwnPropertyNames(map).filter(function (name) {
+            return map[name] !== null;
+        }).map(function (name) {
             return "#" + name + "://" + map[name];
         }).join("");
     }
@@ -99,6 +102,11 @@ define(["require", "exports", "winjs", "./EventMixin"], function (require, expor
     exports.register = register;
     function unregister(user) {
         users[user.name] = null;
+        window.removeEventListener(hashchangeEvent, updateHash);
+        var currentHash = parseHash(window.location.hash);
+        currentHash[user.name] = null;
+        window.location.hash = buildHash(currentHash);
+        window.addEventListener(hashchangeEvent, updateHash);
     }
     exports.unregister = unregister;
     nav.addEventListener(beforenavigatedEvent, beforeNavigate, false);

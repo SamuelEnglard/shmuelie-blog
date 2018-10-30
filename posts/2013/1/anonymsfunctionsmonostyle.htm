@@ -1,0 +1,11 @@
+
+        <p>The fact that functions are objects in JavaScript is a great thing but combined with anonyms functions you can solve scoping problems, though in the process create more.</p>
+        <p>Take the following code:</p>
+        <p><code class="text/javascript">function msg(m)<br />{<br /> window.addEventListener("click", function ()<br /> {<br /> alert(m);<br /> });<br />}</code></p>
+        <p>It works exactly as you&rsquo;d expect, an alert with the given message every time the user clicks on the page. Call it 10 times with different value and you&rsquo;ll get 10 alerts each with the correct message.</p>
+        <p>What if we did the following though:</p>
+        <p><code class="text/javascript">function ()<br />{<br /> for(var i 0l i &lt; 10; i++)<br /> {<br /> window.addEventListener("click", function ()<br /> {<br /> alert(i);<br /> });<br /> }<br />}</code></p>
+        <p>A C# developer would think you&rsquo;d see 10 alerts counting from 0 to 9. In fact what you&rsquo;ll see is 10 alerts saying 9. The reason for this is that JavaScript looks at the value of &lsquo;i&rsquo; at the time the anonyms function executes. The last value it&rsquo;s given is 9 so all 10 functions see that value.</p>
+        <p>A C# developer doesn&rsquo;t expect that because the .NET framework doesn&rsquo;t do that but instead saves the value at the time of creation. It&rsquo;s a very useful ability that I have used many times, till today.</p>
+        <p>In porting my XNA code to MonoGame I learnt that the Mono Framework apparently handles this situation like JavaScript. Just Like JavaScript there are easy ways to fix this, just save the value of 'i&rsquo; so that the function uses the saved value instead. In JavaScript you need to create a wrapping function to create a new scope. C# is a bit easier since it has block level scoping you can just create a new variable to store the value.</p>
+      

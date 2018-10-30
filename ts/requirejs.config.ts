@@ -15,7 +15,8 @@ requirejs.config({
         "pages/home.htm": "home",
         "pages/blog.htm": "blog",
         "pages/contact.htm": "contact",
-        "pages/podcasts.htm": "podcasts"
+        "pages/podcasts.htm": "podcasts",
+        "moment": "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min"
     },
     map: {
         "*": {

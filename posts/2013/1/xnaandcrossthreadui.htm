@@ -1,0 +1,8 @@
+
+        <p>In XNA generally you update the UI in the Update method. The problem with this is that is if you modify you UI on another thread you could have problems. Having run into this a bunch myself. To solve it I created queuing system so that that UI changes would only happen in the Update call. First I added the following field and function to my class.</p>
+        <p><code class="text/x-csharp">private ConcurrentQueue&lt;Action&gt; uiTasks; <br /><br />public void AddUITask(Action uiTask) <br />{ <br /> uiTasks.Enqueue(uiTask); <br />}</code></p>
+        <p>That code simply adds &ldquo;tasks&rdquo; to a queue (concurrent to be thread-safe). The &ldquo;tasks&rdquo; are delegates that take one parameter, the GameTime from the update when it&rsquo;s invoked.</p>
+        <p>The following code should be added at the top of the Update method. It simply tries to loop through each &ldquo;task&rdquo; and then invoking it. If though it has any problems it stop processing &ldquo;tasks&rdquo;.</p>
+        <p><code class="text/x-csharp">while (!uiTasks.IsEmpty) <br />{ <br /> Action uiTask = null; <br /> if (uiTasks.TryDequeue(out uiTask)) <br /> { <br /> uiTask.Invoke(gameTime); <br /> } <br /> else <br /> { <br /> break; <br /> } <br />}</code></p>
+        <p>To use simply call the AddUITask method with a function (which can be a lambda) that does the UI work you need. The &ldquo;task&rdquo; should be short and the minimal amount of work that is needed since it will run on the UI thread.</p>
+      

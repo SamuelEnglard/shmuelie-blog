@@ -1,0 +1,15 @@
+
+        <p>In what can only be called an insane move I&rsquo;ve decided to try porting <a href="http://monogame.net/" target="_blank">MonoGame</a> to the <a href="http://www.agentwatches.com/" target="_blank">AGENT Watch</a>. In a net shell the AGENT Watch is a watch that runs the .NET Micro Framework (the smallest version of the .NET Frameworks designed to run on hardware WITHOUT an Operating System) allowing for custom &ldquo;watch faces&rdquo; as well as apps.</p>
+        <p>Why would I do this? After all I doubt there are going to really be any need for cross platform game development with a watch ;)</p>
+        <ol><li>It&rsquo;s an excuse to learn more about how MonoGame works on the inside.</li>
+        <li>On the topic of how it works because the watch uses the Micro Framework a lot of things we take for granted in .NET/Mono like string.Format and List&lt;T&gt; aren&rsquo;t there. Therefore I need to learn how these things work so I can build them.</li>
+        <li>I&rsquo;ve wondered for a while if MonoGame could be adapted to draw to a System.Drawing.Bitmap and what do you know that&rsquo;s what you draw to on the watch to draw to the screen!</li>
+        </ol><p>To tackle this my first goal is to deal with the problem I mentioned in #2. Currently for a lot of things I&rsquo;m looking to Mono actually for how to do it, though in many cases I can&rsquo;t uses things exactly as are and have to adapt them (for instance I can&rsquo;t add Format back to the string class. Best I can do is make my own String class and use #ifdef to switch calls from string.Format to myString.Format).</p>
+        <p>I won&rsquo;t be porting MonoGame perfectly though (at least at first). These limits are both based on limits of the watch and time I have:</p>
+        <ol><li>No 3D stuff, only 2D.</li>
+        <li>No Media. That means no Songs, Sounds, or Video</li>
+        <li>No Networking. While the watch includes Bluetooth to communicate with a phone because that works so differently than the networking APIs in MonoGame for now I&rsquo;m leaving it out.</li>
+        </ol><p>Currently I&rsquo;m fighting my way through making LINQ work in the Micro Framework, though if it fails enough I might just give up and manually remove LINQ usage.</p>
+        <p>Update:</p>
+        <p>Tom Spilman pointed out to me on <a href="https://github.com/mono/MonoGame/issues/1818#issuecomment-19952126" target="_blank">GitHub</a> that the .NET Micro Framework does not support Generics which I had incorrectly thought it did. Sadly this will put this port way behind but I&rsquo;ll still keep at it!</p>
+      
