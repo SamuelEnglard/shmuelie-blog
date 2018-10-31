@@ -96,6 +96,11 @@
     width: calc(-50px + 100%);
 }
 
+.blog-split .win-splitview-contentwrapper
+{
+    overflow: auto;
+}
+
 .all-applications::before
 {
     content: "\E179";
