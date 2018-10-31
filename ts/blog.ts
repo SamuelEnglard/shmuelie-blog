@@ -47,6 +47,8 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
             const currentArticle = <HTMLElement>blogSplit.querySelector("article");
             const newArticle = <HTMLElement>document.createElement("article");
             WinJS.UI.Fragments.renderCopy(e.detail.location, newArticle).then(function () {
+                WinJS.Utilities.query("a", newArticle).addClass("win-link");
+                WinJS.Utilities.query("code", newArticle).addClass("win-code");
                 return WinJS.UI.Animation.exitContent(currentArticle);
             }).then(function () {
                 (<HTMLElement>currentArticle.parentElement).replaceChild(newArticle, currentArticle);

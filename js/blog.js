@@ -32,6 +32,8 @@ define(["require", "exports", "winjs", "stateManager", "posts", "DynamicListLayo
                 var currentArticle = blogSplit.querySelector("article");
                 var newArticle = document.createElement("article");
                 WinJS.UI.Fragments.renderCopy(e.detail.location, newArticle).then(function () {
+                    WinJS.Utilities.query("a", newArticle).addClass("win-link");
+                    WinJS.Utilities.query("code", newArticle).addClass("win-code");
                     return WinJS.UI.Animation.exitContent(currentArticle);
                 }).then(function () {
                     currentArticle.parentElement.replaceChild(newArticle, currentArticle);

@@ -74,6 +74,11 @@
     }
 }
 
+.blog-split article
+{
+    max-width: 1024px;
+}
+
 .blog-split .article-header h2
 {
     display: inline;
