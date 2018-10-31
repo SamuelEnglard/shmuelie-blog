@@ -2,11 +2,11 @@ define(["require", "exports", "winjs", "moment"], function (require, exports, Wi
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function momentFromNow(dt) {
-        return moment(dt).fromNow();
+        return moment(dt).local().fromNow();
     }
     exports.momentFromNow = momentFromNow;
     function momentLongDateTime(dt) {
-        return moment(dt).format("dddd, MMMM Do YYYY, h:mm:ss a");
+        return moment(dt).local().format("dddd, MMMM Do YYYY, h:mm:ss a");
     }
     exports.momentLongDateTime = momentLongDateTime;
     function momentISO(dt) {

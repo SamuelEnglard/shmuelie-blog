@@ -1,15 +1,15 @@
 import * as WinJS from 'winjs'
 import * as moment from 'moment'
 
-export function momentFromNow(dt: Date): string {
-    return moment(dt).fromNow();
+export function momentFromNow(dt: moment.Moment): string {
+    return moment(dt).local().fromNow();
 }
 
-export function momentLongDateTime(dt: Date): string {
-    return moment(dt).format("dddd, MMMM Do YYYY, h:mm:ss a");
+export function momentLongDateTime(dt: moment.Moment): string {
+    return moment(dt).local().format("dddd, MMMM Do YYYY, h:mm:ss a");
 }
 
-export function momentISO(dt: Date): string {
+export function momentISO(dt: moment.Moment): string {
     return moment(dt).format();
 }
 
