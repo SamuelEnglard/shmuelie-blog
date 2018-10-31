@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="../css/blog.css" />
 <div class="messageTemplate" data-win-control="WinJS.Binding.Template">
     <div class="message">
-        <div class="contactName" data-win-bind="textContent: title"></div>
-        <time class="messagePreview" data-win-bind="textContent: posted Shmuelie.momentFromNow; dateTime: posted Shmuelie.momentISO; title: posted Shmuelie.momentLongDateTime"></time>
+        <div class="win-type-base" data-win-bind="textContent: title Shmuelie.htmlSafe"></div>
+        <time class="win-type-caption" data-win-bind="textContent: posted Shmuelie.momentFromNow; dateTime: posted Shmuelie.momentISO; title: posted Shmuelie.momentLongDateTime"></time>
     </div>
 </div>
 <div class="blog-split win-splitview win-splitview-pane-opened win-splitview-placementleft">
@@ -20,6 +20,7 @@
             <div class="article-header">
                 <button class="win-navigation-backbutton"><div class="win-back"></div></button>
                 <h2 class="win-h2" data-win-bind="textContent: title"></h2>
+                <time class="win-type-caption" data-win-bind="dateTime: posted Shmuelie.momentISO; textContent: posted Shmuelie.momentLongDateTime"></time>
             </div>
             <article></article>
         </div>

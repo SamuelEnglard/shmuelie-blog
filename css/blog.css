@@ -17,18 +17,11 @@
     padding: 16px 24px;
 }
 
-.contactName
-{
-    font-weight: 600;
-    font-size: 15px;
-}
-
-.messagePreview
-{
-    font-size: 12px;
-    color: #FFFFFF;
-    color: rgba(255, 255, 255, .4);
-}
+    .message time
+    {
+        font-style: italic;
+        opacity: 0.75;
+    }
 
 .listView-container
 {
@@ -52,6 +45,7 @@
     {
         display: none;
     }
+
     .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-panewrapper,
     .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-pane
     {
@@ -59,6 +53,7 @@
         display: block;
     }
 }
+
 @media only screen and (min-width: 801px)
 {
     .blog-split.win-splitview.win-splitview-pane-opened .win-splitview-pane,
@@ -87,6 +82,11 @@
 .blog-split .article-header h2
 {
     display: inline;
+}
+
+.blog-split .article-header time
+{
+    display: block;
 }
 
 .blog-split .win-splitview-content

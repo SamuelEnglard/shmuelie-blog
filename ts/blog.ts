@@ -2,6 +2,7 @@ import * as WinJS from 'winjs'
 import * as StateManager from 'stateManager'
 import { BlogEntry, postByUrl, postsSortedByDate } from 'posts'
 import 'momentConverters'
+import 'htmlHelpers'
 import DynamicListLayout from 'DynamicListLayout'
 
 interface BlogControl extends WinJS.UI.Pages.IPageControlMembers {

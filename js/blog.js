@@ -1,4 +1,4 @@
-define(["require", "exports", "winjs", "stateManager", "posts", "DynamicListLayout", "momentConverters"], function (require, exports, WinJS, StateManager, posts_1, DynamicListLayout_1) {
+define(["require", "exports", "winjs", "stateManager", "posts", "DynamicListLayout", "momentConverters", "htmlHelpers"], function (require, exports, WinJS, StateManager, posts_1, DynamicListLayout_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     WinJS.UI.Pages.define("pages/blog.htm", {
