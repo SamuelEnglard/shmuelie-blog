@@ -79,6 +79,11 @@
     max-width: 1024px;
 }
 
+.blog-split code
+{
+    white-space: pre;
+}
+
 .blog-split .article-header h2
 {
     display: inline;
