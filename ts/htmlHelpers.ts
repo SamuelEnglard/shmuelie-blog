@@ -6,6 +6,13 @@ export function htmlSafe(str: string): string {
     return div.innerHTML;
 }
 
+export function arrayNiceBind<T>(arr: T[]): WinJS.Binding.List<{ value: T }> {
+    return new WinJS.Binding.List(arr.map(function (value) {
+        return { value: value };
+    }));
+}
+
 WinJS.Namespace.define("Shmuelie", {
-    htmlSafe: WinJS.Binding.converter(htmlSafe)
+    htmlSafe: WinJS.Binding.converter(htmlSafe),
+    arrayNiceBind: WinJS.Binding.converter(arrayNiceBind)
 });

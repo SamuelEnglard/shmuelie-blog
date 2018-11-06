@@ -37,10 +37,10 @@ export default class PageControlNavigator {
         }
         return this.pageElement;
     }
-    private _navigated(args: CustomEvent<{ location: string, state: any }>): void {
+    private _navigated(args: WinJS.Navigation.NavigatedEvent): void {
         WinJS.UI.Animation.enterPage(this._getAnimationElements()).done();
     }
-    private _navigating(args: CustomEvent<{ location: string, state: any, delta: number, setPromise: (p: WinJS.IPromise<void>) => void }>): void {
+    private _navigating(args: WinJS.Navigation.NavigatingEvent): void {
         const newElement = this._createPageElement();
         let parentedComplete: () => void;
         const parented = new WinJS.Promise(function (c) { parentedComplete = c; });

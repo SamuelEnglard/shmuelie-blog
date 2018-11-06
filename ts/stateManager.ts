@@ -9,23 +9,6 @@ export class RegisteredUser extends EventMixin {
     }
 }
 
-export interface BeforeNavigateDetails {
-    location: string;
-    state: any;
-}
-
-export interface NavigatedDetails {
-    location: string;
-    state: any;
-}
-
-export interface NavigatingDetails {
-    location: string;
-    state: any;
-    delta: number;
-    setPromise(p: WinJS.IPromise<any>): void;
-}
-
 const nav = WinJS.Navigation;
 
 const hashRegex = /#([a-z]+):\/\/([A-Za-z0-9\/_\-\.]+\.htm)/g;
@@ -54,17 +37,17 @@ function buildHash(map: { [name: string]: string | null }): string {
 const users: { [name: string]: RegisteredUser | null } = {};
 
 const beforenavigatedEvent = "beforenavigated";
-function beforeNavigate(eventInfo: CustomEvent<BeforeNavigateDetails>): void {
+function beforeNavigate(eventInfo: WinJS.Navigation.BeforeNavigatedEvent): void {
     processNavigation(eventInfo.detail.location, beforenavigatedEvent, eventInfo.detail);
 }
 
 const navigatedEvent = "navigated";
-function navigated(eventInfo: CustomEvent<NavigatedDetails>): void {
+function navigated(eventInfo: WinJS.Navigation.NavigatedEvent): void {
     processNavigation(eventInfo.detail.location, navigatedEvent, eventInfo.detail);
 }
 
 const navigatingEvent = "navigating";
-function navigating(eventInfo: CustomEvent<NavigatingDetails>): void {
+function navigating(eventInfo: WinJS.Navigation.NavigatingEvent): void {
     processNavigation(eventInfo.detail.location, navigatingEvent, eventInfo.detail);
 }
 

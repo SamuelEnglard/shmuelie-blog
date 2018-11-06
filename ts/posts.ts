@@ -13,7 +13,7 @@ function date(year: number, month: number, date?: number, hours?: number, minute
     return moment.utc([year, month, date, hours, minutes]);
 }
 
-export const posts = new WinJS.Binding.List<BlogEntry>([
+const posts = new WinJS.Binding.List<BlogEntry>([
     { title: "Let Minecraft use ALL THE RAM", posted: date(2018, 5, 5, 21, 52), summary: "", url: "posts/2018/6/let-minecraft-use-all-the-ram.htm", tags: ["minecraft"] },
     { title: "HoloLens", posted: date(2015, 4, 19, 4, 12), summary: "", url: "posts/2015/5/hololens.htm", tags: ["microsoft", "hololens", "unity3d"] },
     { title: "Cross Platform UI", posted: date(2015, 3, 23, 23, 46), summary: "", url: "posts/2015/4/cross-platform-ui.htm", tags: ["oss", "crossplatform", "gui", "monogame", ".net", "mono", "html5"] },
@@ -89,6 +89,47 @@ export const posts = new WinJS.Binding.List<BlogEntry>([
     { title: "Middlesex County College Library Wireless Auto Login", posted: date(2011, 1, 7, 20, 26), summary: "", url: "posts/2011/2/middlesex-county-college-library-wireless-auto.htm", tags: ["Self Plug"] },
     { title: "The Man Know as BG2", posted: date(2011, 0, 18, 6, 42), summary: "", url: "posts/2011/1/the-man-know-as-bg2.htm", tags: ["About"] }
 ]);
-export const postByUrl = posts.createGrouped(function (x) { return x.url; }, function (x) { return x; });
 
-export const postsSortedByDate = posts.createSorted(function (left, right) { return right.posted.valueOf() - left.posted.valueOf(); });
+const tags = posts.map(function (value) { return value.tags; }).reduce(function (previousValue, currentValue) { return previousValue.concat(currentValue); }).filter(function (value, index, array) { return array.indexOf(value) === index });
+
+const postsByUrl: { [url: string]: BlogEntry } = {};
+posts.forEach(function (value) {
+    postsByUrl[value.url] = value;
+});
+
+export function getPostByUrl(url: string): BlogEntry {
+    return postsByUrl[url];
+}
+
+export function suggestTags(e: WinJS.UI.SuggestionsRequestedEvent): void {
+    e.detail.searchSuggestionCollection.appendQuerySuggestions(tags);
+}
+
+let query = "";
+const filteredAndSortedPosts = posts.createFiltered(function (entry) {
+    if (query === "") {
+        return true;
+    }
+    return entry.tags.map(function (value) { return value.toLowerCase(); }).indexOf(query) !== -1 || entry.title.toLowerCase().indexOf(query) !== -1;
+}).createSorted(function (left, right) { return right.posted.valueOf() - left.posted.valueOf(); });
+
+export function getQuery(): string {
+    return query;
+}
+
+export function setQuery(q?: string): void {
+    query = q && q.toLowerCase() || "";
+    posts.notifyReload();
+}
+
+export function getPosts(): WinJS.UI.IListDataSource<BlogEntry> {
+    return filteredAndSortedPosts.dataSource;
+}
+
+export function indexOfPost(entry: BlogEntry): number {
+    return filteredAndSortedPosts.indexOf(entry);
+}
+
+export function getPostAt(index: number): BlogEntry {
+    return filteredAndSortedPosts.getAt(index);
+}

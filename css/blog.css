@@ -27,7 +27,7 @@
 {
     position: absolute;
     bottom: 0;
-    top: 50px;
+    top: 100px;
     left: 0;
     right: 0;
 }
@@ -89,6 +89,26 @@
     display: block;
 }
 
+.blog-split .article-header .tags span:nth-child(even)
+{
+    margin: 0 5px;
+}
+
+    .blog-split .article-header .tags span:nth-child(even)::before
+    {
+        content: "|";
+    }
+
+    .blog-split .article-header .tags span:nth-child(even)::after
+    {
+        content: "|";
+    }
+
+    .blog-split .article-header .tags span:nth-child(even) a
+    {
+        padding: 0 5px;
+    }
+
 .blog-split .win-splitview-content
 {
     padding-top: 25px;
@@ -104,4 +124,19 @@
 .all-applications::before
 {
     content: "\E179";
+}
+
+.find::before
+{
+    content: "\E11A";
+}
+
+.searchbox
+{
+    display: inline-block;
+}
+
+.searchbox-container
+{
+    margin-top: 6px;
 }

@@ -4,7 +4,7 @@ define(["require", "exports", "winjs", "moment"], function (require, exports, Wi
     function date(year, month, date, hours, minutes, seconds, ms) {
         return moment.utc([year, month, date, hours, minutes]);
     }
-    exports.posts = new WinJS.Binding.List([
+    var posts = new WinJS.Binding.List([
         { title: "Let Minecraft use ALL THE RAM", posted: date(2018, 5, 5, 21, 52), summary: "", url: "posts/2018/6/let-minecraft-use-all-the-ram.htm", tags: ["minecraft"] },
         { title: "HoloLens", posted: date(2015, 4, 19, 4, 12), summary: "", url: "posts/2015/5/hololens.htm", tags: ["microsoft", "hololens", "unity3d"] },
         { title: "Cross Platform UI", posted: date(2015, 3, 23, 23, 46), summary: "", url: "posts/2015/4/cross-platform-ui.htm", tags: ["oss", "crossplatform", "gui", "monogame", ".net", "mono", "html5"] },
@@ -80,6 +80,45 @@ define(["require", "exports", "winjs", "moment"], function (require, exports, Wi
         { title: "Middlesex County College Library Wireless Auto Login", posted: date(2011, 1, 7, 20, 26), summary: "", url: "posts/2011/2/middlesex-county-college-library-wireless-auto.htm", tags: ["Self Plug"] },
         { title: "The Man Know as BG2", posted: date(2011, 0, 18, 6, 42), summary: "", url: "posts/2011/1/the-man-know-as-bg2.htm", tags: ["About"] }
     ]);
-    exports.postByUrl = exports.posts.createGrouped(function (x) { return x.url; }, function (x) { return x; });
-    exports.postsSortedByDate = exports.posts.createSorted(function (left, right) { return right.posted.valueOf() - left.posted.valueOf(); });
+    var tags = posts.map(function (value) { return value.tags; }).reduce(function (previousValue, currentValue) { return previousValue.concat(currentValue); }).filter(function (value, index, array) { return array.indexOf(value) === index; });
+    var postsByUrl = {};
+    posts.forEach(function (value) {
+        postsByUrl[value.url] = value;
+    });
+    function getPostByUrl(url) {
+        return postsByUrl[url];
+    }
+    exports.getPostByUrl = getPostByUrl;
+    function suggestTags(e) {
+        e.detail.searchSuggestionCollection.appendQuerySuggestions(tags);
+    }
+    exports.suggestTags = suggestTags;
+    var query = "";
+    var filteredAndSortedPosts = posts.createFiltered(function (entry) {
+        if (query === "") {
+            return true;
+        }
+        return entry.tags.map(function (value) { return value.toLowerCase(); }).indexOf(query) !== -1 || entry.title.toLowerCase().indexOf(query) !== -1;
+    }).createSorted(function (left, right) { return right.posted.valueOf() - left.posted.valueOf(); });
+    function getQuery() {
+        return query;
+    }
+    exports.getQuery = getQuery;
+    function setQuery(q) {
+        query = q && q.toLowerCase() || "";
+        posts.notifyReload();
+    }
+    exports.setQuery = setQuery;
+    function getPosts() {
+        return filteredAndSortedPosts.dataSource;
+    }
+    exports.getPosts = getPosts;
+    function indexOfPost(entry) {
+        return filteredAndSortedPosts.indexOf(entry);
+    }
+    exports.indexOfPost = indexOfPost;
+    function getPostAt(index) {
+        return filteredAndSortedPosts.getAt(index);
+    }
+    exports.getPostAt = getPostAt;
 });

@@ -1,6 +1,6 @@
 import * as WinJS from 'winjs'
 import * as StateManager from 'stateManager'
-import { BlogEntry, postByUrl, postsSortedByDate } from 'posts'
+import * as Posts from 'posts'
 import 'momentConverters'
 import 'htmlHelpers'
 import DynamicListLayout from 'DynamicListLayout'
@@ -14,12 +14,19 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
     ready: function (this: BlogControl, element: HTMLElement, options: any): void {
         element.setAttribute("dir", <string>window.getComputedStyle(element, null).direction);
 
-        const postList: WinJS.UI.ListView<BlogEntry> = (<HTMLElement>element.querySelector(".listView")).winControl;
+        const postList: WinJS.UI.ListView<Posts.BlogEntry> = (<HTMLElement>element.querySelector(".listView")).winControl;
         const postListTemplate: WinJS.Binding.Template = (<HTMLElement>element.querySelector(".messageTemplate")).winControl;
-        postList.itemDataSource = postsSortedByDate.dataSource;
+        const searchbox: WinJS.UI.AutoSuggestBox = (<HTMLElement>element.querySelector(".searchbox")).winControl;
+        searchbox.addEventListener("suggestionsrequested", Posts.suggestTags);
+        searchbox.addEventListener("querysubmitted", function (e: WinJS.UI.QuerySubmittedEvent) {
+            e.stopPropagation();
+            e.preventDefault();
+            Posts.setQuery(e.detail.queryText);
+        });
+        postList.itemDataSource = Posts.getPosts();
         postList.layout = new DynamicListLayout(postListTemplate);
         postList.addEventListener("iteminvoked", function (e: CustomEvent<{ itemIndex: number }>) {
-            WinJS.Navigation.navigate("#blog://" + postsSortedByDate.getAt(e.detail.itemIndex).url);
+            WinJS.Navigation.navigate("#blog://" + Posts.getPostAt(e.detail.itemIndex).url);
 
             hidePostList();
         });
@@ -35,15 +42,23 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
         }
 
         const contentHeader = <HTMLDivElement>blogSplit.querySelector(".article-header");
+        contentHeader.addEventListener("click", function (ev): void {
+            ev.stopPropagation();
+            ev.preventDefault();
+            const srcElement = <Element>ev.srcElement;
+            if (srcElement.localName !== "a") {
+                return;
+            }
+            searchbox.queryText = srcElement.innerHTML;
+            Posts.setQuery(searchbox.queryText);
+        });
 
         this.user = StateManager.register("blog");
-        this.user.addEventListener("navigated", (e: CustomEvent<StateManager.NavigatedDetails>) => {
-            const selectedPost = postByUrl.groups.getItemFromKey(e.detail.location).data;
-            const selectedIndex = postsSortedByDate.indexOf(selectedPost);
+        this.user.addEventListener("navigated", function (e: WinJS.Navigation.NavigatedEvent) {
+            const selectedPost = Posts.getPostByUrl(e.detail.location);
+            const selectedIndex = Posts.indexOfPost(selectedPost);
             postList.selection.set(selectedIndex);
             postList.ensureVisible(selectedIndex);
-
-            WinJS.Binding.processAll(contentHeader, selectedPost);
 
             const currentArticle = <HTMLElement>blogSplit.querySelector("article");
             const newArticle = <HTMLElement>document.createElement("article");
@@ -52,6 +67,7 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
                 WinJS.Utilities.query("code", newArticle).addClass("win-code");
                 return WinJS.UI.Animation.exitContent(currentArticle);
             }).then(function () {
+                WinJS.Binding.processAll(contentHeader, selectedPost);
                 (<HTMLElement>currentArticle.parentElement).replaceChild(newArticle, currentArticle);
                 WinJS.UI.Animation.enterContent(newArticle);
             });

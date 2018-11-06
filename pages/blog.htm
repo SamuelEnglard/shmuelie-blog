@@ -10,6 +10,10 @@
     <div tabindex="-1" class="win-splitview-panewrapper">
         <div tabindex="-1" class="win-splitview-pane">
             <h1 class="win-h1">Blog</h1>
+            <div class="searchbox-container">
+                <dev class="icon find"></dev>
+                <div data-win-control="WinJS.UI.AutoSuggestBox" data-win-options="{placeholderText: 'Search'}" class="searchbox"></div>
+            </div>
             <div class="listView-container">
                 <div class="listView win-selectionstylefilled" data-win-control="WinJS.UI.ListView" data-win-options="{ itemTemplate: select('.messageTemplate'), selectionMode: 'single', tapBehavior: 'directSelect' }"></div>
             </div>
@@ -21,6 +25,9 @@
                 <button class="win-navigation-backbutton"><div class="win-back"></div></button>
                 <h2 class="win-h2" data-win-bind="textContent: title"></h2>
                 <time class="win-type-caption" data-win-bind="dateTime: posted Shmuelie.momentISO; textContent: posted Shmuelie.momentLongDateTime"></time>
+                <div class="tags" data-win-control="WinJS.UI.Repeater" data-win-bind="winControl.data: tags Shmuelie.arrayNiceBind">
+                    <span><a href="#" class="win-link" data-win-bind="textContent: value"></a></span>
+                </div>
             </div>
             <article></article>
         </div>

@@ -1,4 +1,4 @@
-define(["require", "exports", "winjs", "posts"], function (require, exports, WinJS, posts_1) {
+define(["require", "exports", "winjs", "posts"], function (require, exports, WinJS, Posts) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var DynamicListLayout = (function () {
@@ -8,7 +8,7 @@ define(["require", "exports", "winjs", "posts"], function (require, exports, Win
             this.template = template;
         }
         DynamicListLayout.prototype.itemInfo = function (itemIndex, maxWidth) {
-            return this.template.render(posts_1.posts.getAt(itemIndex)).then(function (value) {
+            return this.template.render(Posts.getPostAt(itemIndex)).then(function (value) {
                 value.style.position = "absolute";
                 value.style.visibility = "hidden";
                 value.style.maxWidth = maxWidth + "px";

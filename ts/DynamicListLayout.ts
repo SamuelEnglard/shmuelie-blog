@@ -1,5 +1,5 @@
 import * as WinJS from 'winjs'
-import { posts } from 'posts'
+import * as Posts from 'posts'
 
 interface ItemInfo {
     width: number;
@@ -12,18 +12,6 @@ interface ItemCacheItem {
     index: number;
 }
 
-interface LayoutResult {
-    realizedRangeComplete: WinJS.Promise<any>;
-    layoutComplete: WinJS.Promise<any>;
-}
-
-interface LayoutTree {
-    itemsContainer: {
-        element: HTMLElement;
-        items: HTMLElement[];
-    }
-}
-
 export default class DynamicListLayout implements WinJS.UI.ILayout2 {
     private readonly template: WinJS.Binding.Template;
     private horizontal = false;
@@ -34,7 +22,7 @@ export default class DynamicListLayout implements WinJS.UI.ILayout2 {
     }
 
     private itemInfo(itemIndex: number, maxWidth: number): WinJS.Promise<ItemInfo> {
-        return this.template.render(posts.getAt(itemIndex)).then((value) => {
+        return this.template.render(Posts.getPostAt(itemIndex)).then((value) => {
             value.style.position = "absolute";
             value.style.visibility = "hidden";
             value.style.maxWidth = maxWidth + "px";
@@ -113,7 +101,7 @@ export default class DynamicListLayout implements WinJS.UI.ILayout2 {
         return { firstIndex: firstIndex, lastIndex: lastIndex };
     }
 
-    layout(tree: LayoutTree[], changedRange: any, modifiedItems: any, modifiedGroups: any): WinJS.Promise<LayoutResult | void> {
+    layout(tree: WinJS.UI.LayoutTree[], changedRange: any, modifiedItems: any, modifiedGroups: any): WinJS.Promise<WinJS.UI.LayoutResult | void> {
         if (this.itemCache === null) {
             this.itemCache = [];
         }
