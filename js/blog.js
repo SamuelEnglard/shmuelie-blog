@@ -15,9 +15,12 @@ define(["require", "exports", "winjs", "stateManager", "posts", "DynamicListLayo
             });
             postList.itemDataSource = Posts.getPosts();
             postList.layout = new DynamicListLayout_1.default(postListTemplate);
-            postList.addEventListener("iteminvoked", function (e) {
-                WinJS.Navigation.navigate("#blog://" + Posts.getPostAt(e.detail.itemIndex).url);
+            function navigateToPostIndex(index) {
+                WinJS.Navigation.navigate("#blog://" + Posts.getPostAt(index).url);
                 hidePostList();
+            }
+            postList.addEventListener("iteminvoked", function (e) {
+                navigateToPostIndex(e.detail.itemIndex);
             });
             var blogSplit = element.querySelector(".blog-split");
             function showPostList() {
@@ -62,6 +65,7 @@ define(["require", "exports", "winjs", "stateManager", "posts", "DynamicListLayo
             backButton.addEventListener("click", function () {
                 showPostList();
             });
+            navigateToPostIndex(0);
         },
         unload: function () {
             StateManager.unregister(this.user);

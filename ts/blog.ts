@@ -25,10 +25,14 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
         });
         postList.itemDataSource = Posts.getPosts();
         postList.layout = new DynamicListLayout(postListTemplate);
-        postList.addEventListener("iteminvoked", function (e: CustomEvent<{ itemIndex: number }>) {
-            WinJS.Navigation.navigate("#blog://" + Posts.getPostAt(e.detail.itemIndex).url);
 
+        function navigateToPostIndex(index: number): void {
+            WinJS.Navigation.navigate("#blog://" + Posts.getPostAt(index).url);
             hidePostList();
+        }
+
+        postList.addEventListener("iteminvoked", function (e: CustomEvent<{ itemIndex: number }>) {
+            navigateToPostIndex(e.detail.itemIndex);
         });
 
         const blogSplit = <HTMLDivElement>element.querySelector(".blog-split");
@@ -79,6 +83,8 @@ WinJS.UI.Pages.define("pages/blog.htm", <WinJS.UI.Pages.IPageControlMembers>{
         backButton.addEventListener("click", function () {
             showPostList();
         });
+
+        navigateToPostIndex(0);
     },
     unload: function (this: BlogControl): void {
         StateManager.unregister(this.user);
