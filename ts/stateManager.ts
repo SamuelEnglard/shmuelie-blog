@@ -1,5 +1,5 @@
 import * as WinJS from 'winjs'
-import EventMixin from './EventMixin';
+import EventMixin from 'EventMixin';
 
 export class RegisteredUser extends EventMixin {
     name: string;
