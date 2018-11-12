@@ -47,7 +47,6 @@ interface PodcastsPageControl extends WinJS.UI.Pages.IPageControlMembers {
     podcasts: WinJS.Binding.List<Feed>
 }
 
-const podcastsPageUrl = "pages/podcasts.htm";
 let podcasts = [
     "https://www.relay.fm/rocket/feed",
     "http://atp.fm/episodes?format=rss",
@@ -55,7 +54,7 @@ let podcasts = [
     "http://www.pwop.com/feed.aspx?show=runasradio",
     "http://behindthetech.mpsn.libsynpro.com/rss"
 ];
-WinJS.UI.Pages.define(podcastsPageUrl, {
+WinJS.UI.Pages.define("pages/podcasts.htm", {
     ready: function (this: PodcastsPageControl, element: HTMLElement, options: any): void {
         (<WinJS.UI.Repeater>(<HTMLElement>document.querySelector("#podcastRepeated")).winControl).data = this.podcasts;
     },
@@ -71,4 +70,3 @@ WinJS.UI.Pages.define(podcastsPageUrl, {
         });
     }
 });
-export default podcastsPageUrl;

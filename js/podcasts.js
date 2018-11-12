@@ -1,7 +1,6 @@
 define(["require", "exports", "winjs"], function (require, exports, WinJS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var podcastsPageUrl = "pages/podcasts.htm";
     var podcasts = [
         "https://www.relay.fm/rocket/feed",
         "http://atp.fm/episodes?format=rss",
@@ -9,7 +8,7 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
         "http://www.pwop.com/feed.aspx?show=runasradio",
         "http://behindthetech.mpsn.libsynpro.com/rss"
     ];
-    WinJS.UI.Pages.define(podcastsPageUrl, {
+    WinJS.UI.Pages.define("pages/podcasts.htm", {
         ready: function (element, options) {
             document.querySelector("#podcastRepeated").winControl.data = this.podcasts;
         },
@@ -26,5 +25,4 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
             });
         }
     });
-    exports.default = podcastsPageUrl;
 });
