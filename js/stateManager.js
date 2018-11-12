@@ -88,7 +88,7 @@ define(["require", "exports", "winjs", "EventMixin"], function (require, exports
     function register(name) {
         var user = new RegisteredUser(name);
         users[name] = user;
-        setImmediate(function () {
+        setTimeout(function () {
             var currentHash = parseHash(window.location.hash);
             if (currentHash[name]) {
                 var tempLoaded = loaded;
@@ -96,7 +96,7 @@ define(["require", "exports", "winjs", "EventMixin"], function (require, exports
                 nav.navigate("#" + name + "://" + currentHash[name]);
                 loaded = tempLoaded;
             }
-        });
+        }, 0);
         return user;
     }
     exports.register = register;

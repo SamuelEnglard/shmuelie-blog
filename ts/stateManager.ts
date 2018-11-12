@@ -85,7 +85,7 @@ function updateHash(): void {
 export function register(name: string): RegisteredUser {
     const user = new RegisteredUser(name);
     users[name] = user;
-    setImmediate(function () {
+    setTimeout(function () {
         const currentHash = parseHash(window.location.hash);
         if (currentHash[name]) {
             const tempLoaded = loaded;
@@ -93,7 +93,7 @@ export function register(name: string): RegisteredUser {
             nav.navigate("#" + name + "://" + currentHash[name]);
             loaded = tempLoaded;
         }
-    });
+    }, 0);
     return user;
 }
 
