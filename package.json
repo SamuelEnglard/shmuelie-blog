@@ -14,5 +14,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/SamuelEnglard/shmuelie-blog"
-  }
+  },
+  "bugs": "https://github.com/SamuelEnglard/shmuelie-blog/issues",
+  "homepage": "https://samuelenglard.github.io/shmuelie-blog/default.htm",
+  "keywords": [
+    "blog",
+    "winjs"
+  ],
+  "private": true
 }
