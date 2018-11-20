@@ -1,15 +1,21 @@
-define(["require", "exports", "winjs"], function (require, exports, WinJS) {
+define(["require", "exports", "winjs", "twitter"], function (require, exports, WinJS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var homePageUrl = "pages/home.htm";
-    WinJS.UI.Pages.define(homePageUrl, {
+    WinJS.UI.Pages.define("pages/home.htm", {
         ready: function (element, options) {
             this._element = element;
-            WinJS.UI.processAll(element);
+            var p = new WinJS.Promise(function (completeDispatch) {
+                twttr.ready(function () {
+                    twttr.events.bind("loaded", function (ev) {
+                        completeDispatch(ev);
+                    });
+                    twttr.widgets.load(element);
+                });
+            });
+            return p;
         },
         getAnimationElements: function () {
             return WinJS.Utilities.children(this._element).slice();
         }
     });
-    exports.default = homePageUrl;
 });
