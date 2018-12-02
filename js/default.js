@@ -65,7 +65,7 @@ define(["require", "exports", "winjs", "navigator"], function (require, exports,
         calculateSplitViewDisplayModes();
     }).then(function () {
         if (location.hash.length === 0) {
-            location.hash = "#main://pages/home.htm";
+            location.hash = "#main://pages/blog.htm";
         }
     });
 });

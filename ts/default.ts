@@ -66,6 +66,6 @@ WinJS.Utilities.ready().then(function () {
     calculateSplitViewDisplayModes();
     }).then(function () {
         if (location.hash.length === 0) {
-            location.hash = "#main://pages/home.htm";
+            location.hash = "#main://pages/blog.htm";
         }
 });
