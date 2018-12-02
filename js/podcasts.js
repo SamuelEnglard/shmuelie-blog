@@ -1,4 +1,4 @@
-define(["require", "exports", "winjs"], function (require, exports, WinJS) {
+define(["require", "exports", "winjs", "rss"], function (require, exports, WinJS, RSS) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var podcasts = [
@@ -15,11 +15,7 @@ define(["require", "exports", "winjs"], function (require, exports, WinJS) {
         init: function (element, options) {
             var _this = this;
             return WinJS.Promise.join(podcasts.map(function (value) {
-                return WinJS.xhr({ url: "https://api.rss2json.com/v1/api.json?rss_url=" + value }).then(function (xhr) {
-                    return JSON.parse(xhr.responseText).feed;
-                }, function () {
-                    return null;
-                });
+                return RSS.getFeed(value).then(function (value) { return value && value.feed; });
             })).then(function (value) {
                 _this.podcasts = new WinJS.Binding.List(value.filter(function (v) { return v !== null; }).map(function (v) { return WinJS.Binding.as(v); }));
             });

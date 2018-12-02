@@ -1,50 +1,8 @@
 import * as WinJS from 'winjs'
-
-//https://api.rss2json.com/v1/api.json?rss_url=https://www.relay.fm/rocket/feed
-
-interface Feed {
-    url: string;
-    title: string;
-    link: string;
-    author: string;
-    description: string;
-    image: string;
-}
-
-interface Rating {
-    scheme: string;
-    value: string;
-}
-
-interface Enclosure {
-    link: string;
-    type: string;
-    length: number;
-    duration: number;
-    rating: Rating;
-}
-
-interface Item {
-    title: string;
-    pubDate: string;
-    link: string;
-    guid: string;
-    author: string;
-    thumbnail: string;
-    description: string;
-    content: string;
-    enclosure: Enclosure;
-    categories: any[];
-}
-
-interface RssResponse {
-    status: string;
-    feed: Feed;
-    items: Item[];
-}
+import * as RSS from 'rss'
 
 interface PodcastsPageControl extends WinJS.UI.Pages.IPageControlMembers {
-    podcasts: WinJS.Binding.List<Feed>
+    podcasts: WinJS.Binding.List<RSS.Feed>
 }
 
 let podcasts = [
@@ -60,13 +18,9 @@ WinJS.UI.Pages.define("pages/podcasts.htm", {
     },
     init: function (this: PodcastsPageControl, element: HTMLElement, options: any): WinJS.Promise<void> | void {
         return WinJS.Promise.join(podcasts.map(function (value) {
-            return WinJS.xhr({ url: "https://api.rss2json.com/v1/api.json?rss_url=" + value }).then(function (xhr) {
-                return (<RssResponse>JSON.parse(xhr.responseText)).feed;
-            }, function () {
-                return null;
+            return RSS.getFeed(value).then(function (value) { return value && value.feed; });
+        })).then((value: (RSS.Feed | null)[]) => {
+            this.podcasts = new WinJS.Binding.List<RSS.Feed>(value.filter(function (v) { return v !== null }).map(function (v) { return <RSS.Feed>WinJS.Binding.as(v); }));
             });
-        })).then((value: (Feed | null)[]) => {
-            this.podcasts = new WinJS.Binding.List<Feed>(value.filter(function (v) { return v !== null }).map(function (v) { return <Feed>WinJS.Binding.as(v); }));
-        });
     }
 });
